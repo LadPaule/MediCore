@@ -1,0 +1,64 @@
+services:
+  postgres:
+    image: postgres:18-alpine
+    container_name: medicore_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: medicore_db
+    
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready - U postgres -d medicore_db"]
+      interval: 3s
+      timeout: 9s
+      retries: 9
+      start_period: 12s
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  
+  redis:
+    image: redis:7
+    container_name: medicore_redis
+    ports:
+      - "6379:6379"
+
+  api:
+    build:
+      context: .
+      dockerfile: src/MediCore.API/Dockerfile
+    container_name: medicore_api
+    depends_on:
+      - postgres
+      - redis
+        
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=medicore_db;Username=postgres;Password=postgres
+    ports:
+      - "5000:8080"
+    volumes:
+      - medicore_dataprotection_keys:/keys
+
+  blazor:
+    build:
+      context: .
+      dockerfile: src/MediCore.BlazorUI/Dockerfile
+    container_name: medicore_ui
+    ports:
+      - "5073:8080"
+    depends_on:
+      - api
+    environment:
+      - HttpClient__BaseAddress=http://api:8080/
+      - ASPNETCORE_HTTPS_PORT=
+      - ASPNETCORE_URLS=http://+:8080
+    volumes:
+      - medicore_dataprotection_keys:/keys
+
+volumes:
+  postgres_data:
+  medicore_dataprotection_keys:
+
+

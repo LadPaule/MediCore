@@ -1,0 +1,109 @@
+html {
+    transition: background-color 0.3s ease, color 0.2s ease;
+    scroll-behavior: smooth;
+}
+
+* {
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+:root {
+    --primary: #1976D2;
+    --secondary: #9C27B0;
+    --background: #F5F7FA;
+    --surface: #FFFFFF;
+    --text-primary: #1E293B;
+    --text-secondary: #64748B;
+    --appbar-bg: #1976D2;
+    --appbar-text: #FFFFFF;
+    --drawer-bg: #FFFFFF;
+    --drawer-text: #424242;
+    --divider: #E2E8F0;
+    --mud-palette-primary: var(--primary);
+    --mud-palette-secondary: var(--secondary);
+    --mud-palette-background: var(--background);
+    --mud-palette-surface: var(--surface);
+    --mud-palette-text-primary: var(--text-primary);
+    --mud-palette-text-secondary: var(--text-secondary);
+    --mud-palette-appbar-background: var(--appbar-bg);
+    --mud-palette-appbar-text: var(--appbar-text);
+    --mud-palette-drawer-background: var(--drawer-bg);
+    --mud-palette-drawer-text: var(--drawer-text);
+    --mud-palette-divider: var(--divider);
+}
+
+body.dark {
+    --primary: #90CAF9;
+    --secondary: #CE93D8;
+    --background: #0F172A;
+    --surface: #1E293B;
+    --text-primary: #F1F5F9;
+    --text-secondary: #CBD5E1;
+    --appbar-bg: #1E293B;
+    --appbar-text: #F1F5F9;
+    --drawer-bg: #1E293B;
+    --drawer-text: #F1F5F9;
+    --divider: #334155;
+}
+
+/*Todo: Custom scrollbar for modern look */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+    background: #475569;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+    background: #64748b;
+}
+
+/* Optional: subtle box-shadow for cards */
+.mud-card {
+    transition: box-shadow 0.2s ease;
+}
+
+.mud-card:hover {
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+}
+
+/* Improve button interactions */
+.mud-button {
+    transition: transform 0.1s ease, box-shadow 0.2s ease;
+}
+
+.mud-button:active {
+    transform: scale(0.98);
+}
+
+/* Ensure MudBlazor typography uses Inter font with fallbacks */
+body {
+    font-family: 'Inter', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Optional: fade-in animation for pages */
+.mud-main-content {
+    animation: fadeIn 0.25s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
