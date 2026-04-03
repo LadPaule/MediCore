@@ -1,0 +1,49 @@
+@page "/pharmacy/expiring"
+@using MediCore.BlazorUI.Models.Pharmacy
+@inject PharmacyService PharmacyService
+@using MudBlazor
+
+<MudText Typo="Typo.h4" Class="mb-4">Expiring Medicines</MudText>
+
+<MudTextField Placeholder="Search medicine..."
+              @bind-Value="searchText"
+              @bind-Value:event="oninput"
+              Adornment="Adornment.Start"
+              AdornmentIcon="@Icons.Material.Filled.Search"
+              Class="mb-4" />
+
+<MudTable Items="FilteredMedicines" Hover="true" Dense="true" Striped="true">
+    <HeaderContent>
+        <MudTh>Medicine</MudTh>
+        <MudTh>Stock</MudTh>
+        <MudTh>Expiry Date</MudTh>
+        <MudTh>Days Left</MudTh>
+    </HeaderContent>
+
+    <RowTemplate>
+        <MudTd>@context.Name</MudTd>
+        <MudTd>@context.StockQuantity</MudTd>
+        <MudTd>@context.ExpiryDate.ToShortDateString()</MudTd>
+        <MudTd>
+            @DaysLeft(context.ExpiryDate)
+        </MudTd>
+    </RowTemplate>
+</MudTable>
+
+@code {
+    private List<MedicineVM> medicines = new();
+    private string searchText = string.Empty;
+
+    private IEnumerable<MedicineVM> FilteredMedicines =>
+        medicines.Where(m =>
+            string.IsNullOrWhiteSpace(searchText) ||
+            m.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase));
+
+    protected override async Task OnInitializedAsync()
+    {
+        medicines = await PharmacyService.GetExpiringAsync();
+    }
+
+    private static int DaysLeft(DateTime expiryDate)
+        => (expiryDate.Date - DateTime.UtcNow.Date).Days;
+}

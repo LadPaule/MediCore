@@ -1,0 +1,99 @@
+@page "/pharmacy/dashboard"
+@using MediCore.BlazorUI.Models.Pharmacy
+@inject HttpClient Http
+
+<h3>Pharmacy Dashboard</h3>
+
+<div class="row">
+
+<div class="col-md-3">
+<div class="card text-bg-primary mb-3">
+<div class="card-body">
+<h5>Total Medicines</h5>
+<h3>@stats.totalMedicines</h3>
+</div>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card text-bg-success mb-3">
+<div class="card-body">
+<h5>Available Stock</h5>
+<h3>@stats.availableStock</h3>
+</div>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card text-bg-warning mb-3">
+<div class="card-body">
+<h5>Low Stock</h5>
+<h3>@stats.lowStock</h3>
+</div>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card text-bg-danger mb-3">
+<div class="card-body">
+<h5>Expiring Soon</h5>
+<h3>@stats.expiringSoon</h3>
+</div>
+</div>
+</div>
+
+</div>
+
+<h4>Low Stock Medicines</h4>
+
+<table class="table table-striped">
+
+<thead>
+<tr>
+<th>Name</th>
+<th>Stock</th>
+<th>Expiry</th>
+</tr>
+</thead>
+
+<tbody>
+
+@foreach(var m in lowStock)
+{
+<tr>
+<td>@m.Name</td>
+<td>@m.StockQuantity</td>
+<td>@m.ExpiryDate.ToShortDateString()</td>
+</tr>
+}
+
+</tbody>
+
+</table>
+
+@code{
+
+PharmacyStats stats = new();
+
+List<MedicineVM> lowStock = new();
+
+protected override async Task OnInitializedAsync()
+{
+    await LoadDashboard();
+}
+
+async Task LoadDashboard()
+{
+    stats = await Http.GetFromJsonAsync<PharmacyStats>("api/pharmacy/stats") ?? new();
+    lowStock = await Http.GetFromJsonAsync<List<MedicineVM>>("api/pharmacy/low-stock") ?? new();
+}
+
+class PharmacyStats
+{
+    public int totalMedicines {get;set;}
+    public int availableStock {get;set;}
+    public int lowStock {get;set;}
+    public int expiringSoon {get;set;}
+}
+
+}

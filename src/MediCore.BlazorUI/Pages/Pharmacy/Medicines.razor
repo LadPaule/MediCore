@@ -1,0 +1,82 @@
+@page "/pharmacy/medicines"
+@using MediCore.BlazorUI.Models.Pharmacy
+@inject HttpClient Http
+
+<h3>Medicine Inventory</h3>
+
+<input class="form-control mb-3"
+       placeholder="Search medicine..."
+       @bind="searchText"
+       @bind:event="oninput"/>
+
+<table class="table table-striped">
+
+<thead>
+<tr>
+<th>Name</th>
+<th>Stock</th>
+<th>Price</th>
+<th>Expiry</th>
+<th>Actions</th>
+</tr>
+</thead>
+
+<tbody>
+
+@foreach(var m in FilteredMedicines)
+{
+<tr>
+
+<td>@m.Name</td>
+<td>@m.StockQuantity</td>
+<td>@m.Price</td>
+<td>@m.ExpiryDate.ToShortDateString()</td>
+
+<td>
+
+<button class="btn btn-sm btn-warning"
+        @onclick="() => EditMedicine(m)">
+Edit
+</button>
+
+<button class="btn btn-sm btn-danger"
+        @onclick="() => DeleteMedicine(m.Id)">
+Delete
+</button>
+
+</td>
+
+</tr>
+}
+
+</tbody>
+
+</table>
+
+@code{
+
+List<MedicineVM> medicines = new();
+
+string searchText="";
+
+protected override async Task OnInitializedAsync()
+{
+    medicines = await Http.GetFromJsonAsync<List<MedicineVM>>("api/pharmacy/medicines") ?? new();
+}
+
+IEnumerable<MedicineVM> FilteredMedicines =>
+    medicines.Where(m =>
+        string.IsNullOrWhiteSpace(searchText) ||
+        m.Name.Contains(searchText,StringComparison.OrdinalIgnoreCase));
+
+void EditMedicine(MedicineVM m)
+{
+}
+
+async Task DeleteMedicine(int id)
+{
+    await Http.DeleteAsync($"api/pharmacy/medicines/{id}");
+    medicines.RemoveAll(x => x.Id == id);
+}
+
+}

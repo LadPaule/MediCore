@@ -1,0 +1,41 @@
+@page "/pharmacy/low-stock"
+@using MediCore.BlazorUI.Models.Pharmacy
+@inject HttpClient Http
+
+<h3>Low Stock Medicines</h3>
+
+<table class="table table-striped">
+
+<thead>
+<tr>
+<th>Name</th>
+<th>Stock</th>
+<th>Expiry</th>
+</tr>
+</thead>
+
+<tbody>
+
+@foreach(var m in medicines)
+{
+<tr>
+<td>@m.Name</td>
+<td>@m.StockQuantity</td>
+<td>@m.ExpiryDate</td>
+</tr>
+}
+
+</tbody>
+
+</table>
+
+@code{
+
+List<MedicineVM> medicines = new();
+
+protected override async Task OnInitializedAsync()
+{
+    medicines = await Http.GetFromJsonAsync<List<MedicineVM>>("api/pharmacy/low-stock") ?? new();
+}
+
+}

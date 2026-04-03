@@ -1,0 +1,65 @@
+@page "/pharmacy/dispense"
+@using MediCore.BlazorUI.Models.Pharmacy
+@inject PharmacyService PharmacyService
+@using MudBlazor
+
+<MudPaper Class="pa-6 mx-auto" Style="max-width: 700px;">
+    <MudText Typo="Typo.h4" Class="mb-4">Dispense Medicine</MudText>
+
+    <MudSelect T="int" Label="Medicine" @bind-Value="model.MedicineId" Required="true">
+        @foreach (var medicine in medicines)
+        {
+            <MudSelectItem T="int" Value="@medicine.Id">
+                @medicine.Name (@medicine.StockQuantity in stock)
+            </MudSelectItem>
+        }
+    </MudSelect>
+
+    <MudNumericField T="int" Label="Quantity" @bind-Value="model.Quantity" Min="1" Required="true" Class="mt-4" />
+
+    <MudButton Variant="Variant.Filled"
+               Color="Color.Primary"
+               Class="mt-4"
+               OnClick="DispenseMedicine">
+        Dispense
+    </MudButton>
+
+    @if (!string.IsNullOrWhiteSpace(message))
+    {
+        <MudAlert Severity="@messageSeverity" Class="mt-4">
+            @message
+        </MudAlert>
+    }
+</MudPaper>
+
+@code {
+    private List<MedicineVM> medicines = new();
+    private DispenseMedicineVM model = new();
+    private string? message;
+    private Severity messageSeverity = Severity.Info;
+
+    protected override async Task OnInitializedAsync()
+    {
+        medicines = await PharmacyService.GetMedicinesAsync();
+    }
+
+    private async Task DispenseMedicine()
+    {
+        message = null;
+
+        var success = await PharmacyService.DispenseAsync(model);
+
+        if (success)
+        {
+            messageSeverity = Severity.Success;
+            message = "Medication dispensed successfully.";
+            medicines = await PharmacyService.GetMedicinesAsync();
+            model = new DispenseMedicineVM();
+        }
+        else
+        {
+            messageSeverity = Severity.Error;
+            message = "Dispense failed. Check stock or medicine selection.";
+        }
+    }
+}

@@ -1,0 +1,48 @@
+@page "/appointments"
+
+@inject AppointmentService AppointmentService
+
+<h3>Appointments</h3>
+
+<a href="/appointments/create" class="btn btn-primary">Book Appointment</a>
+
+<table class="table">
+
+    <thead>
+        <tr>
+            <th>Patient</th>
+            <th>Reason</th>
+            <th>Date</th>
+            <th>Attending Doctor</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (var a in appointments)
+        {
+            <tr>
+                <td>@a.PatientName</td>
+                <td>@a.Reason</td>
+                <td>@a.AppointmentDate</td>
+                <td>@a.DoctorName</td>
+                <td>@a.Status</td>
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>
+
+@code {
+
+    List<Appointment> appointments = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        appointments = await AppointmentService.GetAppointments() ?? new();
+    }
+
+}

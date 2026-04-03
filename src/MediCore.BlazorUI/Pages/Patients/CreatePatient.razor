@@ -1,0 +1,67 @@
+@using MudBlazor
+@page "/patients/create"
+@inject PatientService PatientService
+@inject NavigationManager Navigation
+
+<EditForm Model="patient" OnValidSubmit="SavePatient">
+    <InputText @bind-Value="patient.FirstName" placeholder="First Name" class="form-control" />
+    <InputText @bind-Value="patient.LastName" placeholder="Last Name" class="form-control" />
+
+    <InputDate @bind-Value="patient.DateOfBirth" class="form-control" />
+
+    <InputText @bind-Value="patient.Gender" placeholder="Gender" class="form-control" />
+
+    <InputText @bind-Value="patient.Phone" placeholder="Phone" class="form-control" />
+
+    <InputText @bind-Value="patient.Email" placeholder="Address" class="form-control" />
+
+    <button class="btn btn-success mt-3">Save</button>
+
+</EditForm>
+
+
+
+@code {
+
+    Patient patient = new();
+    private DateTime? _dobWrapper 
+    {
+        get => patient.DateOfBirth == default ? null : patient.DateOfBirth;
+        set => patient.DateOfBirth = value ?? DateTime.Now;
+    }
+
+    async Task SavePatient()
+    {
+        await PatientService.CreatePatient(patient);
+        Navigation.NavigateTo("/patients");
+    }
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

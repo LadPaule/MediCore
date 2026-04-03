@@ -1,0 +1,179 @@
+@page "/admin/users"
+@using MediCore.BlazorUI.Models.Admin
+@inject HttpClient Http
+
+<h2>Admin User Management</h2>
+
+<div class="d-flex justify-content-between mb-3">
+
+    <input class="form-control w-25" placeholder="Search users" @bind="searchText" @bind:event="oninput" />
+
+    <button class="btn btn-primary" @onclick="OpenCreateModal">
+        + Create User
+    </button>
+
+</div>
+
+<table class="table table-striped">
+
+    <thead>
+
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Created</th>
+            <th>Actions</th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        @foreach (var user in FilteredUsers)
+        {
+            <tr>
+
+                <td>@user.FirstName @user.LastName</td>
+
+                <td>@user.Email</td>
+
+                <td>@user.Role</td>
+
+                <td>@user.CreatedAt.ToShortDateString()</td>
+
+                <td>
+
+                    <button class="btn btn-sm btn-warning" @onclick="() => OpenEditModal(user)">
+                        Edit
+                    </button>
+
+                    <button class="btn btn-sm btn-danger" @onclick="() => DeleteUser(user.Id)">
+                        Delete
+                    </button>
+
+                </td>
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>
+
+<div class="mt-3">
+
+    <button class="btn btn-secondary" @onclick="PrevPage" disabled="@(_page == 1)">
+        Prev
+    </button>
+
+    <span class="mx-2">Page @_page</span>
+
+    <button class="btn btn-secondary" @onclick="NextPage">
+        Next
+    </button>
+
+</div>
+
+@if (showCreateModal)
+{
+    <CreateUserModal Roles="roles" OnClose="CloseCreateModal" OnCreated="ReloadUsers" />
+}
+
+@if (showEditModal)
+{
+    <EditUserModal User="selectedUser" Roles="roles" OnClose="CloseEditModal" OnUpdated="ReloadUsers" />
+}
+
+@code {
+
+    List<UserVM> users = new();
+    List<string> roles = new();
+
+    string searchText = "";
+
+    int _page = 1;
+    int pageSize = 10;
+
+    bool showCreateModal = false;
+    bool showEditModal = false;
+
+    UserVM? selectedUser;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadUsers();
+        await LoadRoles();
+    }
+
+    async Task LoadUsers()
+    {
+        users = await Http.GetFromJsonAsync<List<UserVM>>("api/admin/users") ?? new();
+    }
+
+    async Task LoadRoles()
+    {
+        roles = await Http.GetFromJsonAsync<List<string>>("api/admin/users/roles") ?? new();
+    }
+
+    IEnumerable<UserVM> FilteredUsers =>
+        users
+        .Where(u =>
+            string.IsNullOrWhiteSpace(searchText) ||
+            u.Email.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+            u.FirstName.Contains(searchText, StringComparison.OrdinalIgnoreCase))
+        .Skip((_page - 1) * pageSize)
+        .Take(pageSize);
+
+    void NextPage()
+    {
+        _page++;
+    }
+
+    void PrevPage()
+    {
+        if (_page > 1)
+            _page--;
+    }
+
+    void OpenCreateModal()
+    {
+        showCreateModal = true;
+    }
+
+    void CloseCreateModal()
+    {
+        showCreateModal = false;
+    }
+
+    void OpenEditModal(UserVM user)
+    {
+        selectedUser = user;
+        showEditModal = true;
+    }
+
+    void CloseEditModal()
+    {
+        showEditModal = false;
+    }
+
+    async Task ReloadUsers()
+    {
+        showCreateModal = false;
+        showEditModal = false;
+        await LoadUsers();
+    }
+
+    async Task DeleteUser(string id)
+    {
+        await Http.DeleteAsync($"api/admin/users/{id}");
+        await LoadUsers();
+    }
+
+}
+
+
+
+
+
+

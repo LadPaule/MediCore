@@ -1,0 +1,84 @@
+@page "/appointments/create"
+@using MudBlazor;
+@inject AppointmentService AppointmentService
+@inject PatientService PatientService
+@inject HttpClient Http
+@inject NavigationManager Nav
+
+<h3>Book Appointment</h3>
+
+@if (patients == null || doctors == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <EditForm Model="appointment" OnValidSubmit="SaveAppointment">
+        <div class="mb-3">
+            <label>Patient</label>
+            <InputSelect class="form-control" @bind-Value="appointment.PatientId">
+                <option value="">Select Patient</option>
+
+                @foreach (var p in patients)
+                {
+                    <option value="@p.Id">
+                        @p.FirstName @p.LastName
+                    </option>
+                }
+            </InputSelect>
+        </div>
+
+        <div class="mb-3">
+            <label>Doctor</label>
+            <InputSelect class="form-control" @bind-Value="appointment.Id">
+
+                <option value="">Select Doctor</option>
+
+                @foreach (var d in doctors)
+                {
+                    <option value="@d.Id">
+                        Dr. @d.FirstName @d.LastName
+                    </option>
+                }
+
+            </InputSelect>
+        </div>
+
+        <div class="mb-3">
+            <label>Appointment Date</label>
+            <InputDate class="form-control" @bind-Value="appointment.AppointmentDate" />
+        </div>
+
+        <div class="mb-3">
+            <label>Notes</label>
+            <InputTextArea class="form-control" @bind-Value="appointment.Reason" />
+        </div>
+
+        <button class="btn btn-success">Save Appointment</button>
+
+    </EditForm>
+}
+
+@code {
+
+    Appointment appointment = new();
+
+    List<Patient>? patients;
+
+    List<Doctor>? doctors;
+
+    protected override async Task OnInitializedAsync()
+    {
+        patients = await PatientService.GetPatients();
+
+        doctors = await Http.GetFromJsonAsync<List<Doctor>>("api/doctors");
+    }
+
+    async Task SaveAppointment()
+    {
+        await AppointmentService.CreateAppointment(appointment);
+
+        Nav.NavigateTo("/appointments");
+    }
+
+}

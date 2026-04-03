@@ -1,0 +1,49 @@
+@using MediCore.BlazorUI.Models.Pharmacy
+@using MudBlazor
+@page "/pharmacy/inventory"
+@inject PharmacyService PharmacyService
+
+<MudText Typo="Typo.h4">Pharmacy Inventory</MudText>
+
+<MudTable Items="inventory">
+
+<HeaderContent>
+<MudTh>Medication</MudTh>
+<MudTh>Quantity</MudTh>
+<MudTh>Expiry Date</MudTh>
+<MudTh>Status</MudTh>
+</HeaderContent>
+
+<RowTemplate>
+
+<MudTd>@context.Name</MudTd>
+<MudTd>@context.StockQuantity</MudTd>
+<MudTd>@context.ExpiryDate.ToShortDateString()</MudTd>
+
+<MudTd>
+
+@if(context.StockQuantity < 10)
+{
+<MudChip T="string" Color="Color.Error">Low Stock</MudChip>
+}
+else
+{
+<MudChip T="string" Color="Color.Success">Available</MudChip>
+}
+
+</MudTd>
+
+</RowTemplate>
+
+</MudTable>
+
+@code {
+
+List<MedicineVM> inventory = new();
+
+protected override async Task OnInitializedAsync()
+{
+    inventory = await PharmacyService.GetMedicinesAsync();
+}
+
+}

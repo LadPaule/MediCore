@@ -1,0 +1,205 @@
+@page "/login"
+@attribute [AllowAnonymous]
+@inject AuthService AuthService
+@inject NavigationManager Nav
+
+<div class="login-container">
+    <div class="login-card">
+        <div class="login-header">
+            <div class="medical-icon">
+                <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 4v16M4 12h16" />
+                    <circle cx="12" cy="12" r="9" />
+                </svg>
+            </div>
+            <h3>MediCore Login</h3>
+            <p>Sign in to access your dashboard</p>
+        </div>
+
+        <EditForm Model="loginModel" OnValidSubmit="HandleLogin">
+            <DataAnnotationsValidator />
+
+            <div class="form-group">
+                <label for="email">Email address</label>
+                <InputText id="email" @bind-Value="loginModel.Email" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <InputText id="password" @bind-Value="loginModel.Password" type="password" class="form-control" />
+            </div>
+
+            <button type="submit" class="login-button">Sign in</button>
+        </EditForm>
+
+        @* @if (errorMessage != null)
+        Todo: will handle Auth later
+        
+        {
+            <div class="error-message">
+                @errorMessage
+            </div>
+        } *@
+    </div>
+</div>
+
+<style>
+    .login-container {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(145deg, #e8f0f5 0%, #d4e2ed 100%);
+        background-attachment: fixed;
+        padding: 1rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Subtle medical pattern overlay */
+    .login-container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: radial-gradient(circle at 20% 40%, rgba(52, 152, 219, 0.03) 1px, transparent 1px);
+        background-size: 24px 24px;
+        pointer-events: none;
+    }
+
+    .login-card {
+        max-width: 420px;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.96);
+        backdrop-filter: blur(2px);
+        border-radius: 28px;
+        box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.02);
+        padding: 2rem 2rem 2.5rem;
+        transition: all 0.2s ease;
+        border: 1px solid rgba(66, 153, 225, 0.15);
+    }
+
+    .login-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .medical-icon {
+        color: #2c7da0;
+        margin-bottom: 1rem;
+        display: inline-block;
+        background: rgba(44, 125, 160, 0.08);
+        padding: 0.75rem;
+        border-radius: 60px;
+        line-height: 0;
+    }
+
+    .medical-icon svg {
+        display: block;
+    }
+
+    .login-header h3 {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: #1f4e6f;
+        margin: 0 0 0.5rem 0;
+        letter-spacing: -0.3px;
+    }
+
+    .login-header p {
+        color: #4a6f8a;
+        margin: 0;
+        font-size: 0.95rem;
+        font-weight: 400;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: #2c5a7a;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 0.8rem 1rem;
+        border: 1px solid #cbdde9;
+        border-radius: 14px;
+        font-size: 0.95rem;
+        transition: all 0.2s ease;
+        background-color: #ffffff;
+        color: #1f3b4c;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: #2c7da0;
+        box-shadow: 0 0 0 3px rgba(44, 125, 160, 0.15);
+    }
+
+    .login-button {
+        width: 100%;
+        background: linear-gradient(105deg, #2c7da0 0%, #1f5e7e 100%);
+        color: white;
+        border: none;
+        border-radius: 40px;
+        padding: 0.9rem 1rem;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        margin-top: 0.5rem;
+        box-shadow: 0 4px 12px rgba(31, 94, 126, 0.2);
+    }
+
+    .login-button:hover {
+        background: linear-gradient(105deg, #236b8e 0%, #1a4f6b 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(31, 94, 126, 0.25);
+    }
+
+    .login-button:active {
+        transform: translateY(0);
+    }
+
+    .error-message {
+        margin-top: 1.5rem;
+        padding: 0.75rem;
+        background-color: #fff6f5;
+        border-left: 4px solid #e53e3e;
+        color: #c53030;
+        border-radius: 12px;
+        font-size: 0.85rem;
+        text-align: center;
+    }
+</style>
+
+@code {
+    LoginRequest loginModel = new();
+    @* string? errorMessage; *@
+
+    async Task HandleLogin()
+    {
+        var success = await AuthService.Login(loginModel);
+
+        if (success)
+        {
+            Nav.NavigateTo("/dashboard");
+        }
+        else
+        {
+            Nav.NavigateTo("/dashboard");
+            @* Todo: Will handle Authentication later *@
+            @* errorMessage = "Invalid credentials"; *@
+        }
+    }
+}

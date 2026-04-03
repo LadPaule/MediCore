@@ -1,0 +1,42 @@
+@page "/patients"
+@using MudBlazor
+@* @attribute [Authorize(Roles="Admin, Doctor, Nurse, Pharmacist")] *@
+@inject PatientService PatientService
+
+<h3>Patients</h3>
+@if (patients == null)
+{
+ <p>No Patients Found!</p>
+}
+else{
+    <table class="table" >
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Phone Number</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var p in patients)
+            {
+                <tr>
+                    <td>@p.Id</td>
+                    <td>@p.FirstName @p.LastName</td>
+                    <td>@p.Phone</td>
+                    <td><a href="patients/@p.Id">View</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code
+{
+    List<Patient>? patients;
+    protected override async Task OnInitializedAsync()
+    {
+        patients = await PatientService.GetPatients();
+    }
+}

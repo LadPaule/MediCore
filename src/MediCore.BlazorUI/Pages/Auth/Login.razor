@@ -1,0 +1,36 @@
+@* @inject AuthService AuthService
+@inject NavigationManager Nav
+
+<h3>Login</h3>
+
+<div class="card p-4" style="max-width:400px">
+
+    <input class="form-control mb-2" placeholder="Email"
+           @bind="email" />
+
+    <input type="password"
+           class="form-control mb-3"
+           placeholder="Password"
+           @bind="password" />
+
+    <button class="btn btn-primary w-100"
+            @onclick="Login">
+        Login
+    </button>
+
+</div>
+
+@code{
+
+string email;
+string password;
+
+async Task Login()
+{
+    var success = await AuthService.Login(email, password);
+
+    if(success)
+        Nav.NavigateTo("/dashboard");
+}
+
+} *@

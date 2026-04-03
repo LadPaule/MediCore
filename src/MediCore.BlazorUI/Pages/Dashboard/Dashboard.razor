@@ -1,0 +1,58 @@
+@page "/dashboard"
+@* @attribute [Authorize(Roles = "Admin,Doctor,Nurse,Pharmacist")] *@
+@inject DashboardService DashboardService
+@using MudBlazor
+
+<h3 class="mb-4">Dashboard</h3>
+
+<div class="grid">
+    <div class="card-metric">
+        <div class="d-flex align-items-center justify-content-between">
+            <div>
+                <div class="metric-value">@patients</div>
+                <div class="metric-label">Total Patients</div>
+            </div>
+            <i class="bi bi-people-fill" style="font-size: 2.5rem; color: var(--primary);"></i>
+        </div>
+    </div>
+
+    <div class="card-metric">
+        <div class="d-flex align-items-center justify-content-between">
+            <div>
+                <div class="metric-value">@appointments</div>
+                <div class="metric-label">Appointments Today</div>
+            </div>
+            <i class="bi bi-calendar-check-fill" style="font-size: 2.5rem; color: var(--success);"></i>
+        </div>
+    </div>
+
+    <div class="card-metric">
+        <div class="d-flex align-items-center justify-content-between">
+            <div>
+                <div class="metric-value">—</div>
+                <div class="metric-label">Medicines in Stock</div>
+            </div>
+            <i class="bi bi-capsule" style="font-size: 2.5rem; color: var(--warning);"></i>
+        </div>
+    </div>
+</div>
+
+<style>
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+    }
+</style>
+
+@code {
+    int patients;
+    int appointments;
+
+    protected override async Task OnInitializedAsync()
+    {
+        patients = await DashboardService.GetPatientCount();
+        appointments = await DashboardService.GetTodayAppointments();
+    }
+}
+

@@ -1,0 +1,30 @@
+@page "/pharmacy"
+@* @attribute [Authorize(Roles = "Admin, Pharmacist")] *@
+@inject PharmacyService PharmacyService
+
+<h3>Pharmacy Inventory</h3>
+
+<table class="table">
+
+    <thead>
+        <tr>
+            <th>Medicine</th>
+            <th>Stock</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @* 
+    @foreach(var m in medicines)
+    {
+    <tr>
+        <td>@m.Name</td>
+        <td>@m.Stock</td>
+        <td>@m.Price</td>
+    </tr>
+    } *@
+
+    </tbody>
+
+</table>
