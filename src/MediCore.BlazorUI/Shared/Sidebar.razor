@@ -1,0 +1,57 @@
+<div class="sidebar @(collapsed ? "collapsed" : "")">
+
+    <ul class="nav flex-column">
+
+        <li class="nav-item">
+            <a class="nav-link" href="/dashboard">
+                <i class="bi bi-speedometer2"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="/appointments">
+                <i class="bi bi-calendar-check"></i>
+                <span>Appointments</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="/patients">
+                <i class="bi bi-people"></i>
+                <span>Patients</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="/pharmacy/dashboard">
+                <i class="bi bi-capsule"></i>
+                <span>Pharmacy</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="/emr/patients">
+                <i class="bi bi-file-medical"></i>
+                <span>EMR</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="/admin/users">
+                <i class="bi bi-gear"></i>
+                <span>Administration</span>
+            </a>
+        </li>
+
+    </ul>
+
+</div>
+
+@code {
+
+    [Parameter] public bool collapsed { get; set; }
+
+}
+
+

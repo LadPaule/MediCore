@@ -1,0 +1,68 @@
+@using MediCore.BlazorUI.Models.Admin;
+
+<div class="modal fade show d-block">
+
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5>Edit User</h5>
+            </div>
+
+            <div class="modal-body">
+
+                <input class="form-control mb-2" @bind="User.FirstName" />
+
+                <input class="form-control mb-2" @bind="User.LastName" />
+
+                <input class="form-control mb-2" @bind="User.Email" />
+
+                <select class="form-control" @bind="User.Role">
+
+                    @foreach (var r in Roles)
+                    {
+                        <option value="@r">@r</option>
+                    }
+
+                </select>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button class="btn btn-secondary" @onclick="OnClose">
+                    Cancel
+                </button>
+
+                <button class="btn btn-success" @onclick="UpdateUser">
+                    Save
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@code {
+
+    [Parameter] public UserVM User { get; set; } = new();
+
+    [Parameter] public List<string> Roles { get; set; } = new();
+
+    [Parameter] public EventCallback OnClose { get; set; }
+
+    [Parameter] public EventCallback OnUpdated { get; set; }
+
+    [Inject] private HttpClient Http { get; set; } = default!;
+
+    async Task UpdateUser()
+    {
+        await Http.PutAsJsonAsync($"api/admin/users/{User.Id}", User);
+        await OnUpdated.InvokeAsync();
+    }
+
+}

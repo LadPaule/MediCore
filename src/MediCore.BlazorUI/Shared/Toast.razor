@@ -1,0 +1,36 @@
+@if (show)
+{
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+
+        <div class="toast show">
+
+            <div class="toast-body">
+                @message
+            </div>
+
+        </div>
+
+    </div>
+}
+
+@code {
+
+    string message = "";
+    bool show;
+
+    [Inject] ToastService? ToastService { get; set; }
+
+    protected override void OnInitialized()
+    {
+        ToastService?.OnShow += ShowToast;
+    }
+
+    void ShowToast(string msg)
+    {
+        message = msg;
+        show = true;
+
+        StateHasChanged();
+    }
+
+}

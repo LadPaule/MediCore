@@ -1,0 +1,23 @@
+﻿@using MudBlazor
+@inherits LayoutComponentBase
+
+<div class="app-layout">
+    <TopBar OnSidebarToggle="ToggleSidebar"/>
+    <div class="main-container">
+        <Sidebar collapsed="_sidebarCollapsed" />
+            
+        <div class="content">
+            @Body
+        </div>
+    </div>
+</div>
+
+@code {
+    bool _sidebarCollapsed = false;
+
+    void ToggleSidebar()
+    {
+        _sidebarCollapsed = !_sidebarCollapsed;
+    }
+}
+

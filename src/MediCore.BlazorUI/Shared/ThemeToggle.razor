@@ -1,0 +1,37 @@
+@using Microsoft.JSInterop
+
+<button class="btn btn-outline-light btn-sm" @onclick="ToggleTheme" type="button">
+    <i id="theme-toggle-icon" style="color: #285A48" class="bi @(darkMode ? "bi-moon" : "bi-sun")"></i>
+</button>
+
+@code {
+    private bool darkMode = false;
+
+    [Inject]
+    private IJSRuntime JS { get; set; } = default!;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        
+        if (firstRender)
+        {
+            try 
+            {
+                var currentTheme = await JS.InvokeAsync<string>("getCurrentTheme");
+                darkMode = currentTheme == "dark";
+                StateHasChanged();
+            }
+            catch (Exception ex)
+            {
+                // Log and move on; don't let a theme toggle crash the app
+                Console.WriteLine($"Theme initialization failed: {ex.Message}");
+            }
+        }
+    }
+
+    private async Task ToggleTheme()
+    {
+        darkMode = !darkMode;
+        await JS.InvokeVoidAsync("setTheme", darkMode ? "dark" : "light");
+    }
+}

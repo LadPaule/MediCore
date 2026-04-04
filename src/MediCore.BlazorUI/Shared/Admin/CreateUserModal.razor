@@ -1,0 +1,82 @@
+<div class="modal fade show d-block">
+
+<div class="modal-dialog">
+
+<div class="modal-content">
+
+<div class="modal-header">
+<h5>Create User</h5>
+</div>
+
+<div class="modal-body">
+
+<input class="form-control mb-2" placeholder="First Name" @bind="firstName"/>
+
+<input class="form-control mb-2" placeholder="Last Name" @bind="lastName"/>
+
+<input class="form-control mb-2" placeholder="Email" @bind="email"/>
+
+<input class="form-control mb-2" type="password" placeholder="Password" @bind="password"/>
+
+<select class="form-control" @bind="role">
+
+@foreach(var r in Roles)
+{
+<option value="@r">@r</option>
+}
+
+</select>
+
+</div>
+
+<div class="modal-footer">
+
+<button class="btn btn-secondary" @onclick="OnClose">
+Cancel
+</button>
+
+<button class="btn btn-primary" @onclick="CreateUser">
+Create
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+@code{
+
+[Parameter] public List<string> Roles {get;set;} = new();
+
+[Parameter] public EventCallback OnClose {get;set;}
+
+[Parameter] public EventCallback OnCreated {get;set;}
+
+[Inject] private HttpClient Http {get;set;} = default!;
+
+string firstName="";
+string lastName="";
+string email="";
+string password="";
+string role="";
+
+async Task CreateUser()
+{
+    var dto = new
+    {
+        firstName,
+        lastName,
+        email,
+        password,
+        role
+    };
+
+    await Http.PostAsJsonAsync("api/admin/users", dto);
+
+    await OnCreated.InvokeAsync();
+}
+
+}

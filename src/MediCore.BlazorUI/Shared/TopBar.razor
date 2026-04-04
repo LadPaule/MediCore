@@ -1,0 +1,48 @@
+<nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
+
+    <div class="container-fluid">
+
+        <button class="btn btn-outline-light me-3" @onclick="ToggleSidebar">
+
+            <i class="bi bi-list"></i>
+
+        </button>
+
+        <a class="navbar-brand fw-bold" href="/">
+            <i class="bi bi-hospital"></i>
+            MediCore
+        </a>
+
+        <div class="ms-auto d-flex align-items-center gap-3">
+
+            <input class="form-control form-control-sm" placeholder="Search patients, records..." />
+
+            <NotificationBell />
+
+            <ThemeToggle />
+
+            <UserMenu />
+
+        </div>
+
+    </div>
+
+</nav>
+
+@code {
+
+    [Parameter] public EventCallback OnSidebarToggle { get; set; }
+
+    async Task ToggleSidebar()
+    {
+        await OnSidebarToggle.InvokeAsync();
+    }
+
+}
+
+
+
+
+
+
+
