@@ -1,0 +1,48 @@
+B:\BDSAI\Semester 3\ASP.NET & C#\Projects\medicore\src\MediCore.Domain\bin\Debug\net10.0\MediCore.Domain.deps.json
+B:\BDSAI\Semester 3\ASP.NET & C#\Projects\medicore\src\MediCore.Domain\bin\Debug\net10.0\MediCore.Domain.dll
+B:\BDSAI\Semester 3\ASP.NET & C#\Projects\medicore\src\MediCore.Domain\bin\Debug\net10.0\MediCore.Domain.pdb
+B:\BDSAI\Semester 3\ASP.NET & C#\Projects\medicore\src\MediCore.Domain\obj\Debug\net10.0\MediCore.Domain.csproj.AssemblyReference.cache
+B:\BDSAI\Semester 3\ASP.NET & C#\Projects\medicore\src\MediCore.Domain\obj\Debug\net10.0\MediCore.Domain.GeneratedMSBuildEditorConfig.editorconfig
+B:\BDSAI\Semester 3\ASP.NET & C#\Projects\medicore\src\MediCore.Domain\obj\Debug\net10.0\MediCore.Domain.AssemblyInfoInputs.cache
+B:\BDSAI\Semester 3\ASP.NET & C#\Projects\medicore\src\MediCore.Domain\obj\Debug\net10.0\MediCore.Domain.AssemblyInfo.cs
+B:\BDSAI\Semester 3\ASP.NET & C#\Projects\medicore\src\MediCore.Domain\obj\Debug\net10.0\MediCore.Domain.csproj.CoreCompileInputs.cache
+B:\BDSAI\Semester 3\ASP.NET & C#\Projects\medicore\src\MediCore.Domain\obj\Debug\net10.0\MediCore.Domain.dll
+B:\BDSAI\Semester 3\ASP.NET & C#\Projects\medicore\src\MediCore.Domain\obj\Debug\net10.0\refint\MediCore.Domain.dll
+B:\BDSAI\Semester 3\ASP.NET & C#\Projects\medicore\src\MediCore.Domain\obj\Debug\net10.0\MediCore.Domain.pdb
+B:\BDSAI\Semester 3\ASP.NET & C#\Projects\medicore\src\MediCore.Domain\obj\Debug\net10.0\ref\MediCore.Domain.dll
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.Domain\bin\Debug\net10.0\MediCore.Domain.deps.json
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.Domain\bin\Debug\net10.0\MediCore.Domain.dll
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.Domain\bin\Debug\net10.0\MediCore.Domain.pdb
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.Domain\obj\Debug\net10.0\MediCore.Domain.csproj.AssemblyReference.cache
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.Domain\obj\Debug\net10.0\MediCore.Domain.GeneratedMSBuildEditorConfig.editorconfig
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.Domain\obj\Debug\net10.0\MediCore.Domain.AssemblyInfoInputs.cache
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.Domain\obj\Debug\net10.0\MediCore.Domain.AssemblyInfo.cs
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.Domain\obj\Debug\net10.0\MediCore.Domain.csproj.CoreCompileInputs.cache
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.Domain\obj\Debug\net10.0\MediCore.Domain.dll
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.Domain\obj\Debug\net10.0\refint\MediCore.Domain.dll
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.Domain\obj\Debug\net10.0\MediCore.Domain.pdb
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.Domain\obj\Debug\net10.0\ref\MediCore.Domain.dll
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.Domain\bin\Debug\net10.0\MediCore.Domain.deps.json
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.Domain\bin\Debug\net10.0\MediCore.Domain.dll
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.Domain\bin\Debug\net10.0\MediCore.Domain.pdb
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.Domain\obj\Debug\net10.0\MediCore.Domain.csproj.AssemblyReference.cache
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.Domain\obj\Debug\net10.0\MediCore.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.Domain\obj\Debug\net10.0\MediCore.Domain.AssemblyInfoInputs.cache
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.Domain\obj\Debug\net10.0\MediCore.Domain.AssemblyInfo.cs
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.Domain\obj\Debug\net10.0\MediCore.Domain.csproj.CoreCompileInputs.cache
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.Domain\obj\Debug\net10.0\MediCore.Domain.dll
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.Domain\obj\Debug\net10.0\refint\MediCore.Domain.dll
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.Domain\obj\Debug\net10.0\MediCore.Domain.pdb
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.Domain\obj\Debug\net10.0\ref\MediCore.Domain.dll
+B:\BDSAI\Semester3\asp_dotnet\Projects\assesments\medicore\src\MediCore.Domain\bin\Debug\net10.0\MediCore.Domain.deps.json
+B:\BDSAI\Semester3\asp_dotnet\Projects\assesments\medicore\src\MediCore.Domain\bin\Debug\net10.0\MediCore.Domain.dll
+B:\BDSAI\Semester3\asp_dotnet\Projects\assesments\medicore\src\MediCore.Domain\bin\Debug\net10.0\MediCore.Domain.pdb
+B:\BDSAI\Semester3\asp_dotnet\Projects\assesments\medicore\src\MediCore.Domain\obj\Debug\net10.0\MediCore.Domain.csproj.AssemblyReference.cache
+B:\BDSAI\Semester3\asp_dotnet\Projects\assesments\medicore\src\MediCore.Domain\obj\Debug\net10.0\MediCore.Domain.GeneratedMSBuildEditorConfig.editorconfig
+B:\BDSAI\Semester3\asp_dotnet\Projects\assesments\medicore\src\MediCore.Domain\obj\Debug\net10.0\MediCore.Domain.AssemblyInfoInputs.cache
+B:\BDSAI\Semester3\asp_dotnet\Projects\assesments\medicore\src\MediCore.Domain\obj\Debug\net10.0\MediCore.Domain.AssemblyInfo.cs
+B:\BDSAI\Semester3\asp_dotnet\Projects\assesments\medicore\src\MediCore.Domain\obj\Debug\net10.0\MediCore.Domain.csproj.CoreCompileInputs.cache
+B:\BDSAI\Semester3\asp_dotnet\Projects\assesments\medicore\src\MediCore.Domain\obj\Debug\net10.0\MediCore.Domain.dll
+B:\BDSAI\Semester3\asp_dotnet\Projects\assesments\medicore\src\MediCore.Domain\obj\Debug\net10.0\refint\MediCore.Domain.dll
+B:\BDSAI\Semester3\asp_dotnet\Projects\assesments\medicore\src\MediCore.Domain\obj\Debug\net10.0\MediCore.Domain.pdb
+B:\BDSAI\Semester3\asp_dotnet\Projects\assesments\medicore\src\MediCore.Domain\obj\Debug\net10.0\ref\MediCore.Domain.dll

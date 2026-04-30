@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using MediCore.Domain.Entities;
 
+namespace MediCore.Infrastructure.Data.Seed;
+
 public static class DbInitializer
 {
     public static async Task SeedAdminUser(IServiceProvider serviceProvider)

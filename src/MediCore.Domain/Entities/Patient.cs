@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace MediCore.Domain.Entities;
 
 
@@ -13,4 +15,9 @@ public class Patient
 
     public required string Address {get; set;}
     public DateTime CreatedAt {get; set;} = DateTime.UtcNow;
+
+    public string? AssignedDoctorId {get; set;}
+
+    [ForeignKey("AssignedDoctorId")]
+    public ApplicationUser? AssignedDoctor {get; set;}
 }

@@ -12,8 +12,8 @@ public class PatientRepository : IPatientRepository
     public PatientRepository(AppDbContext context)
     {
         _context = context;
-
     }
+
     public async Task<Patient> AddAsync(Patient patient)
     {
         _context.Patients.Add(patient);
@@ -23,13 +23,29 @@ public class PatientRepository : IPatientRepository
 
     public async Task<List<Patient>> GetAllAsync()
     {
-        return await _context.Patients.ToListAsync();
+        return await _context.Patients
+            .Include(p => p.AssignedDoctor)
+            .ToListAsync();
     }
+
     public async Task<Patient?> GetByIdAsync(Guid id)
     {
-        return await _context.Patients.FindAsync(id);
+        return await _context.Patients
+            .Include(p => p.AssignedDoctor)
+            .FirstOrDefaultAsync(p => p.Id == id);
+    }
+
+    public async Task<List<Patient>> GetByDoctorAsync(string doctorId)
+    {
+        return await _context.Patients
+            .Include(p => p.AssignedDoctor)
+            .Where(p => p.AssignedDoctorId == doctorId)
+            .ToListAsync();
+    }
+
+    public async Task UpdateAsync(Patient patient)
+    {
+        _context.Patients.Update(patient);
+        await _context.SaveChangesAsync();
     }
 }
-
-
-

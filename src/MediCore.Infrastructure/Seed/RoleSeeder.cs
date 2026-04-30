@@ -10,7 +10,8 @@ namespace MediCore.Infrastructure.Data.Seed
             "Admin",
             "Doctor",
             "Pharmacist",
-            "Nurse"
+            "Nurse",
+            "Receptionist"
         };
 
         public static async Task SeedRolesAsync(

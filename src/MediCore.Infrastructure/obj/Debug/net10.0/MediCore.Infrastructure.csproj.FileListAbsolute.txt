@@ -1,0 +1,76 @@
+B:\BDSAI\Semester 3\ASP.NET & C#\Projects\medicore\src\MediCore.Infrastructure\bin\Debug\net10.0\MediCore.Infrastructure.deps.json
+B:\BDSAI\Semester 3\ASP.NET & C#\Projects\medicore\src\MediCore.Infrastructure\bin\Debug\net10.0\MediCore.Infrastructure.runtimeconfig.json
+B:\BDSAI\Semester 3\ASP.NET & C#\Projects\medicore\src\MediCore.Infrastructure\bin\Debug\net10.0\MediCore.Infrastructure.dll
+B:\BDSAI\Semester 3\ASP.NET & C#\Projects\medicore\src\MediCore.Infrastructure\bin\Debug\net10.0\MediCore.Infrastructure.pdb
+B:\BDSAI\Semester 3\ASP.NET & C#\Projects\medicore\src\MediCore.Infrastructure\bin\Debug\net10.0\MediCore.Application.dll
+B:\BDSAI\Semester 3\ASP.NET & C#\Projects\medicore\src\MediCore.Infrastructure\bin\Debug\net10.0\MediCore.Domain.dll
+B:\BDSAI\Semester 3\ASP.NET & C#\Projects\medicore\src\MediCore.Infrastructure\bin\Debug\net10.0\MediCore.Domain.pdb
+B:\BDSAI\Semester 3\ASP.NET & C#\Projects\medicore\src\MediCore.Infrastructure\bin\Debug\net10.0\MediCore.Application.pdb
+B:\BDSAI\Semester 3\ASP.NET & C#\Projects\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\MediCore.Infrastructure.csproj.AssemblyReference.cache
+B:\BDSAI\Semester 3\ASP.NET & C#\Projects\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\MediCore.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+B:\BDSAI\Semester 3\ASP.NET & C#\Projects\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\MediCore.Infrastructure.AssemblyInfoInputs.cache
+B:\BDSAI\Semester 3\ASP.NET & C#\Projects\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\MediCore.Infrastructure.AssemblyInfo.cs
+B:\BDSAI\Semester 3\ASP.NET & C#\Projects\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\MediCore.Infrastructure.csproj.CoreCompileInputs.cache
+B:\BDSAI\Semester 3\ASP.NET & C#\Projects\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\MediCore.49A9670B.Up2Date
+B:\BDSAI\Semester 3\ASP.NET & C#\Projects\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\MediCore.Infrastructure.dll
+B:\BDSAI\Semester 3\ASP.NET & C#\Projects\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\refint\MediCore.Infrastructure.dll
+B:\BDSAI\Semester 3\ASP.NET & C#\Projects\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\MediCore.Infrastructure.pdb
+B:\BDSAI\Semester 3\ASP.NET & C#\Projects\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\MediCore.Infrastructure.genruntimeconfig.cache
+B:\BDSAI\Semester 3\ASP.NET & C#\Projects\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\ref\MediCore.Infrastructure.dll
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.Infrastructure\bin\Debug\net10.0\MediCore.Infrastructure.deps.json
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.Infrastructure\bin\Debug\net10.0\MediCore.Infrastructure.runtimeconfig.json
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.Infrastructure\bin\Debug\net10.0\MediCore.Infrastructure.dll
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.Infrastructure\bin\Debug\net10.0\MediCore.Infrastructure.pdb
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.Infrastructure\bin\Debug\net10.0\MediCore.Application.dll
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.Infrastructure\bin\Debug\net10.0\MediCore.Domain.dll
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.Infrastructure\bin\Debug\net10.0\MediCore.Domain.pdb
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.Infrastructure\bin\Debug\net10.0\MediCore.Application.pdb
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\MediCore.Infrastructure.csproj.AssemblyReference.cache
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\MediCore.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\MediCore.Infrastructure.AssemblyInfoInputs.cache
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\MediCore.Infrastructure.AssemblyInfo.cs
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\MediCore.Infrastructure.csproj.CoreCompileInputs.cache
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\MediCore.49A9670B.Up2Date
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\MediCore.Infrastructure.dll
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\refint\MediCore.Infrastructure.dll
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\MediCore.Infrastructure.pdb
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\MediCore.Infrastructure.genruntimeconfig.cache
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\ref\MediCore.Infrastructure.dll
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.Infrastructure\bin\Debug\net10.0\MediCore.Infrastructure.deps.json
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.Infrastructure\bin\Debug\net10.0\MediCore.Infrastructure.runtimeconfig.json
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.Infrastructure\bin\Debug\net10.0\MediCore.Infrastructure.dll
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.Infrastructure\bin\Debug\net10.0\MediCore.Infrastructure.pdb
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.Infrastructure\bin\Debug\net10.0\MediCore.Application.dll
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.Infrastructure\bin\Debug\net10.0\MediCore.Domain.dll
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.Infrastructure\bin\Debug\net10.0\MediCore.Domain.pdb
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.Infrastructure\bin\Debug\net10.0\MediCore.Application.pdb
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\MediCore.Infrastructure.csproj.AssemblyReference.cache
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\MediCore.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\MediCore.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\MediCore.Infrastructure.AssemblyInfo.cs
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\MediCore.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\MediCore.49A9670B.Up2Date
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\MediCore.Infrastructure.dll
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\refint\MediCore.Infrastructure.dll
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\MediCore.Infrastructure.pdb
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\MediCore.Infrastructure.genruntimeconfig.cache
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\ref\MediCore.Infrastructure.dll
+B:\BDSAI\Semester3\asp_dotnet\Projects\assesments\medicore\src\MediCore.Infrastructure\bin\Debug\net10.0\MediCore.Infrastructure.deps.json
+B:\BDSAI\Semester3\asp_dotnet\Projects\assesments\medicore\src\MediCore.Infrastructure\bin\Debug\net10.0\MediCore.Infrastructure.runtimeconfig.json
+B:\BDSAI\Semester3\asp_dotnet\Projects\assesments\medicore\src\MediCore.Infrastructure\bin\Debug\net10.0\MediCore.Infrastructure.dll
+B:\BDSAI\Semester3\asp_dotnet\Projects\assesments\medicore\src\MediCore.Infrastructure\bin\Debug\net10.0\MediCore.Infrastructure.pdb
+B:\BDSAI\Semester3\asp_dotnet\Projects\assesments\medicore\src\MediCore.Infrastructure\bin\Debug\net10.0\MediCore.Application.dll
+B:\BDSAI\Semester3\asp_dotnet\Projects\assesments\medicore\src\MediCore.Infrastructure\bin\Debug\net10.0\MediCore.Domain.dll
+B:\BDSAI\Semester3\asp_dotnet\Projects\assesments\medicore\src\MediCore.Infrastructure\bin\Debug\net10.0\MediCore.Domain.pdb
+B:\BDSAI\Semester3\asp_dotnet\Projects\assesments\medicore\src\MediCore.Infrastructure\bin\Debug\net10.0\MediCore.Application.pdb
+B:\BDSAI\Semester3\asp_dotnet\Projects\assesments\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\MediCore.Infrastructure.csproj.AssemblyReference.cache
+B:\BDSAI\Semester3\asp_dotnet\Projects\assesments\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\MediCore.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+B:\BDSAI\Semester3\asp_dotnet\Projects\assesments\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\MediCore.Infrastructure.AssemblyInfoInputs.cache
+B:\BDSAI\Semester3\asp_dotnet\Projects\assesments\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\MediCore.Infrastructure.AssemblyInfo.cs
+B:\BDSAI\Semester3\asp_dotnet\Projects\assesments\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\MediCore.Infrastructure.csproj.CoreCompileInputs.cache
+B:\BDSAI\Semester3\asp_dotnet\Projects\assesments\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\MediCore.49A9670B.Up2Date
+B:\BDSAI\Semester3\asp_dotnet\Projects\assesments\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\MediCore.Infrastructure.dll
+B:\BDSAI\Semester3\asp_dotnet\Projects\assesments\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\refint\MediCore.Infrastructure.dll
+B:\BDSAI\Semester3\asp_dotnet\Projects\assesments\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\MediCore.Infrastructure.pdb
+B:\BDSAI\Semester3\asp_dotnet\Projects\assesments\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\MediCore.Infrastructure.genruntimeconfig.cache
+B:\BDSAI\Semester3\asp_dotnet\Projects\assesments\medicore\src\MediCore.Infrastructure\obj\Debug\net10.0\ref\MediCore.Infrastructure.dll
