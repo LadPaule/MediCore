@@ -1,0 +1,247 @@
+@page "/patients/{Id:guid}"
+@attribute [Authorize]
+@inject PatientService PatientService
+@inject AppointmentService AppointmentService
+@inject DoctorService DoctorService
+@inject AuthService AuthService
+@inject HttpClient Http
+@inject NavigationManager Nav
+
+<a href="/patients" class="btn btn-outline-secondary btn-sm mb-3">
+    <i class="bi bi-arrow-left"></i> Back to Patients
+</a>
+
+@if (isLoading)
+{
+    <div class="text-center py-5">
+        <div class="spinner-border text-primary" role="status"></div>
+        <p class="mt-2 text-muted">Loading patient...</p>
+    </div>
+}
+else if (patient == null)
+{
+    <div class="alert alert-warning">Patient not found.</div>
+}
+else
+{
+    <div class="row">
+        <div class="col-lg-5 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">@patient.FirstName @patient.LastName</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-2">
+                        <div class="col-5 fw-bold">Date of Birth</div>
+                        <div class="col-7">@(patient.DateOfBirth?.ToShortDateString() ?? "N/A")</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5 fw-bold">Gender</div>
+                        <div class="col-7">@(string.IsNullOrEmpty(patient.Gender) ? "N/A" : patient.Gender)</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5 fw-bold">Phone</div>
+                        <div class="col-7">@(string.IsNullOrEmpty(patient.PhoneNumber) ? "N/A" : patient.PhoneNumber)</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5 fw-bold">Email</div>
+                        <div class="col-7">@(string.IsNullOrEmpty(patient.Email) ? "N/A" : patient.Email)</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5 fw-bold">Address</div>
+                        <div class="col-7">@(string.IsNullOrEmpty(patient.Address) ? "N/A" : patient.Address)</div>
+                    </div>
+                    <hr />
+                    <div class="row mb-2">
+                        <div class="col-5 fw-bold">Assigned Doctor</div>
+                        <div class="col-7">
+                            @if (string.IsNullOrEmpty(patient.AssignedDoctorName))
+                            {
+                                <span class="badge bg-secondary">Unassigned</span>
+                            }
+                            else
+                            {
+                                <span>@patient.AssignedDoctorName</span>
+                            }
+                        </div>
+                    </div>
+
+                    <AuthorizeView Roles="Admin,Receptionist">
+                        <Authorized>
+                            <div class="mt-3">
+                                <label class="form-label fw-bold">Reassign Doctor</label>
+                                <div class="d-flex gap-2">
+                                    <select class="form-control" @bind="selectedDoctorId">
+                                        <option value="">— Unassigned —</option>
+                                        @foreach (var d in doctors)
+                                        {
+                                            <option value="@d.Id">Dr. @d.FirstName @d.LastName</option>
+                                        }
+                                    </select>
+                                    <button class="btn btn-primary" @onclick="SaveAssignment" disabled="@isSavingAssignment">
+                                        @(isSavingAssignment ? "..." : "Save")
+                                    </button>
+                                </div>
+                                @if (assignmentMessage != null)
+                                {
+                                    <div class="mt-2 small @(assignmentSuccess ? "text-success" : "text-danger")">
+                                        @assignmentMessage
+                                    </div>
+                                }
+                            </div>
+                        </Authorized>
+                    </AuthorizeView>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-7">
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="bi bi-calendar-check me-2"></i>Appointments</h5>
+                    <a href="/appointments/create" class="btn btn-sm btn-outline-primary">
+                        <i class="bi bi-plus-lg me-1"></i> Book
+                    </a>
+                </div>
+                <div class="card-body p-0">
+                    @if (appointments.Count == 0)
+                    {
+                        <p class="text-muted text-center py-3 mb-0">No appointments yet.</p>
+                    }
+                    else
+                    {
+                        <table class="table table-sm mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Doctor</th>
+                                    <th>Reason</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var a in appointments)
+                                {
+                                    <tr>
+                                        <td>@a.AppointmentDate.ToString("dd MMM yyyy, HH:mm")</td>
+                                        <td>@a.DoctorName</td>
+                                        <td>@a.Reason</td>
+                                        <td><span class="badge @StatusBadge(a.Status)">@a.Status</span></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="bi bi-file-medical me-2"></i>Medical Records</h5>
+                </div>
+                <div class="card-body p-0">
+                    @if (records.Count == 0)
+                    {
+                        <p class="text-muted text-center py-3 mb-0">No medical records yet.</p>
+                    }
+                    else
+                    {
+                        @foreach (var r in records)
+                        {
+                            <div class="border-bottom p-3">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <strong>@r.Diagnosis</strong>
+                                    <small class="text-muted">@r.CreatedAt.ToString("dd MMM yyyy")</small>
+                                </div>
+                                <div class="small text-muted mb-1"><strong>Symptoms:</strong> @r.Symptoms</div>
+                                @if (!string.IsNullOrWhiteSpace(r.Notes))
+                                {
+                                    <div class="small"><strong>Notes:</strong> @r.Notes</div>
+                                }
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public Guid Id { get; set; }
+    Patient? patient;
+    List<Doctor> doctors = new();
+    List<Appointment> appointments = new();
+    List<MedicalRecordVM> records = new();
+    bool isLoading = true;
+    bool isSavingAssignment;
+    bool assignmentSuccess;
+    string? assignmentMessage;
+    string? selectedDoctorId;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            await AuthService.InitializeAsync();
+            patient = await PatientService.GetPatient(Id);
+            selectedDoctorId = patient?.AssignedDoctorId;
+            doctors = await DoctorService.GetDoctorsAsync();
+            appointments = await AppointmentService.GetPatientAppointments(Id);
+            records = await Http.GetFromJsonAsync<List<MedicalRecordVM>>($"api/medicalrecords/patient/{Id}") ?? new();
+        }
+        catch { }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    async Task SaveAssignment()
+    {
+        try
+        {
+            isSavingAssignment = true;
+            assignmentMessage = null;
+
+            var ok = await PatientService.AssignDoctor(Id, selectedDoctorId);
+            if (!ok)
+            {
+                assignmentSuccess = false;
+                assignmentMessage = "Could not save the assignment.";
+                return;
+            }
+
+            patient = await PatientService.GetPatient(Id);
+            assignmentSuccess = true;
+            assignmentMessage = "Assignment saved.";
+        }
+        catch (Exception ex)
+        {
+            assignmentSuccess = false;
+            assignmentMessage = $"Error: {ex.Message}";
+        }
+        finally
+        {
+            isSavingAssignment = false;
+        }
+    }
+
+    string StatusBadge(string status) => status?.ToLower() switch
+    {
+        "confirmed" => "bg-success",
+        "pending" => "bg-warning text-dark",
+        "cancelled" => "bg-danger",
+        "completed" => "bg-info",
+        _ => "bg-secondary"
+    };
+
+    class MedicalRecordVM
+    {
+        public Guid Id { get; set; }
+        public string Diagnosis { get; set; } = "";
+        public string Symptoms { get; set; } = "";
+        public string Notes { get; set; } = "";
+        public DateTime CreatedAt { get; set; }
+    }
+}

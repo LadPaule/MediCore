@@ -1,0 +1,19 @@
+@page "/logout"
+@attribute [AllowAnonymous]
+@inject AuthService AuthService
+@inject NavigationManager Nav
+
+<div class="d-flex justify-content-center align-items-center" style="min-height: 60vh;">
+    <p>Logging out...</p>
+</div>
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await AuthService.Logout();
+            Nav.NavigateTo("/login", true);
+        }
+    }
+}

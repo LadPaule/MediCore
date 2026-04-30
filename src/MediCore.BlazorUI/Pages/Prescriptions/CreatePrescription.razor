@@ -1,0 +1,131 @@
+@page "/prescriptions/create/{MedicalRecordId:guid}"
+@attribute [Authorize(Roles = "Admin,Doctor")]
+@inject PrescriptionService PrescriptionService
+@inject DoctorService DoctorService
+@inject NavigationManager Navigation
+
+<h3 class="mb-4">New Prescription</h3>
+
+<div class="card" style="max-width: 800px;">
+    <div class="card-body">
+        <EditForm Model="prescription" OnValidSubmit="Save">
+            <div class="mb-3">
+                <label class="form-label">Doctor</label>
+                <InputSelect class="form-control" @bind-Value="prescription.DoctorId">
+                    <option value="">Select doctor</option>
+                    @foreach (var d in doctors)
+                    {
+                        <option value="@d.Id">@d.FirstName @d.LastName</option>
+                    }
+                </InputSelect>
+            </div>
+
+            <h5 class="mt-4">Items</h5>
+            @for (int i = 0; i < prescription.Items.Count; i++)
+            {
+                var idx = i;
+                <div class="card p-3 mb-3 bg-light">
+                    <div class="row g-2">
+                        <div class="col-md-4">
+                            <label class="form-label">Medication</label>
+                            <InputText @bind-Value="prescription.Items[idx].MedicationName" class="form-control" />
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Dosage</label>
+                            <InputText @bind-Value="prescription.Items[idx].Dosage" class="form-control" placeholder="e.g. 500mg" />
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Frequency</label>
+                            <InputText @bind-Value="prescription.Items[idx].Frequency" class="form-control" placeholder="e.g. 3x daily" />
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Days</label>
+                            <InputNumber @bind-Value="prescription.Items[idx].DurationDays" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="mt-2 text-end">
+                        <button type="button" class="btn btn-sm btn-outline-danger" @onclick="() => RemoveItem(idx)">Remove</button>
+                    </div>
+                </div>
+            }
+
+            <button type="button" class="btn btn-outline-primary mb-3" @onclick="AddItem">
+                <i class="bi bi-plus-lg me-1"></i> Add item
+            </button>
+
+            @if (message != null)
+            {
+                <div class="alert @(isSuccess ? "alert-success" : "alert-danger") mb-3">@message</div>
+            }
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-success" disabled="@isSaving">
+                    @(isSaving ? "Saving..." : "Save Prescription")
+                </button>
+                <button type="button" class="btn btn-secondary" @onclick='() => Navigation.NavigateTo("/emr/patients")'>Cancel</button>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    [Parameter] public Guid MedicalRecordId { get; set; }
+
+    PrescriptionRequest prescription = new();
+    List<Doctor> doctors = new();
+    bool isSaving;
+    string? message;
+    bool isSuccess;
+
+    protected override async Task OnInitializedAsync()
+    {
+        prescription.MedicalRecordId = MedicalRecordId;
+        prescription.Items.Add(new PrescriptionItemRequest());
+        doctors = await DoctorService.GetDoctorsAsync();
+    }
+
+    void AddItem() => prescription.Items.Add(new PrescriptionItemRequest());
+    void RemoveItem(int i)
+    {
+        if (prescription.Items.Count > 1)
+            prescription.Items.RemoveAt(i);
+    }
+
+    async Task Save()
+    {
+        if (string.IsNullOrEmpty(prescription.DoctorId) || !prescription.Items.Any(x => !string.IsNullOrWhiteSpace(x.MedicationName)))
+        {
+            isSuccess = false;
+            message = "Pick a doctor and add at least one medication.";
+            return;
+        }
+
+        isSaving = true;
+        message = null;
+        try
+        {
+            var ok = await PrescriptionService.CreateAsync(prescription);
+            if (ok)
+            {
+                isSuccess = true;
+                message = "Prescription saved.";
+                await Task.Delay(800);
+                Navigation.NavigateTo("/emr/patients");
+            }
+            else
+            {
+                isSuccess = false;
+                message = "Failed to save prescription.";
+            }
+        }
+        catch
+        {
+            isSuccess = false;
+            message = "Failed to save prescription.";
+        }
+        finally
+        {
+            isSaving = false;
+        }
+    }
+}

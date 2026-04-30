@@ -1,84 +1,184 @@
 @page "/appointments/create"
-@using MudBlazor;
+@attribute [Authorize]
 @inject AppointmentService AppointmentService
 @inject PatientService PatientService
+@inject DoctorService DoctorService
+@inject AuthService AuthService
 @inject HttpClient Http
 @inject NavigationManager Nav
+@inject AuthenticationStateProvider AuthState
+@using System.Security.Claims
 
-<h3>Book Appointment</h3>
+<h3 class="mb-4">Book Appointment</h3>
 
-@if (patients == null || doctors == null)
+@if (isLoading)
 {
-    <p>Loading...</p>
+    <div class="text-center py-5">
+        <div class="spinner-border text-primary" role="status"></div>
+        <p class="mt-2 text-muted">Loading form data...</p>
+    </div>
 }
 else
 {
-    <EditForm Model="appointment" OnValidSubmit="SaveAppointment">
-        <div class="mb-3">
-            <label>Patient</label>
-            <InputSelect class="form-control" @bind-Value="appointment.PatientId">
-                <option value="">Select Patient</option>
+    <div class="card" style="max-width: 600px;">
+        <div class="card-body">
+            <EditForm Model="model" OnValidSubmit="SaveAppointment">
+                <DataAnnotationsValidator />
 
-                @foreach (var p in patients)
+                <div class="mb-3">
+                    <label class="form-label">Patient</label>
+                    <InputSelect class="form-control" @bind-Value="model.PatientId">
+                        <option value="@Guid.Empty">Select Patient</option>
+                        @foreach (var p in patients)
+                        {
+                            <option value="@p.Id">@p.FirstName @p.LastName</option>
+                        }
+                    </InputSelect>
+                    @if (scopedToDoctor)
+                    {
+                        <div class="form-text">Showing patients assigned to you. Ask an admin to assign a new patient if needed.</div>
+                    }
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Doctor</label>
+                    <InputSelect class="form-control" @bind-Value="model.DoctorId" disabled="@scopedToDoctor">
+                        <option value="">Select Doctor</option>
+                        @foreach (var d in doctors)
+                        {
+                            <option value="@d.Id">Dr. @d.FirstName @d.LastName</option>
+                        }
+                    </InputSelect>
+                    @if (scopedToDoctor)
+                    {
+                        <div class="form-text">You are booking as the attending doctor.</div>
+                    }
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Appointment Date</label>
+                    <InputDate Type="InputDateType.DateTimeLocal" class="form-control" @bind-Value="model.AppointmentDate" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Reason / Notes</label>
+                    <InputTextArea class="form-control" @bind-Value="model.Reason" rows="3" />
+                </div>
+
+                @if (message != null)
                 {
-                    <option value="@p.Id">
-                        @p.FirstName @p.LastName
-                    </option>
-                }
-            </InputSelect>
-        </div>
-
-        <div class="mb-3">
-            <label>Doctor</label>
-            <InputSelect class="form-control" @bind-Value="appointment.Id">
-
-                <option value="">Select Doctor</option>
-
-                @foreach (var d in doctors)
-                {
-                    <option value="@d.Id">
-                        Dr. @d.FirstName @d.LastName
-                    </option>
+                    <div class="alert @(isSuccess ? "alert-success" : "alert-danger") mb-3">@message</div>
                 }
 
-            </InputSelect>
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-success" disabled="@isSaving">
+                        @(isSaving ? "Saving..." : "Save Appointment")
+                    </button>
+                    <a href="/appointments" class="btn btn-secondary">Cancel</a>
+                </div>
+            </EditForm>
         </div>
-
-        <div class="mb-3">
-            <label>Appointment Date</label>
-            <InputDate class="form-control" @bind-Value="appointment.AppointmentDate" />
-        </div>
-
-        <div class="mb-3">
-            <label>Notes</label>
-            <InputTextArea class="form-control" @bind-Value="appointment.Reason" />
-        </div>
-
-        <button class="btn btn-success">Save Appointment</button>
-
-    </EditForm>
+    </div>
 }
 
 @code {
-
-    Appointment appointment = new();
-
-    List<Patient>? patients;
-
-    List<Doctor>? doctors;
+    AppointmentCreateModel model = new() { AppointmentDate = DateTime.Now.AddDays(1) };
+    List<Patient> patients = new();
+    List<Doctor> doctors = new();
+    bool isLoading = true;
+    bool isSaving;
+    bool scopedToDoctor;
+    string? message;
+    bool isSuccess;
 
     protected override async Task OnInitializedAsync()
     {
-        patients = await PatientService.GetPatients();
+        try
+        {
+            await AuthService.InitializeAsync();
+            var auth = await AuthState.GetAuthenticationStateAsync();
+            var user = auth.User;
+            var isDoctor = user.IsInRole("Doctor");
+            var isAdmin = user.IsInRole("Admin");
+            scopedToDoctor = isDoctor && !isAdmin;
 
-        doctors = await Http.GetFromJsonAsync<List<Doctor>>("api/doctors");
+            doctors = await DoctorService.GetDoctorsAsync();
+
+            if (scopedToDoctor)
+            {
+                patients = await PatientService.GetMyPatients();
+                model.DoctorId = user.FindFirstValue(ClaimTypes.NameIdentifier) ?? "";
+            }
+            else
+            {
+                patients = (await PatientService.GetPatients()) ?? new();
+            }
+        }
+        catch { }
+        finally
+        {
+            isLoading = false;
+        }
     }
 
     async Task SaveAppointment()
     {
-        await AppointmentService.CreateAppointment(appointment);
+        if (model.PatientId == Guid.Empty || string.IsNullOrEmpty(model.DoctorId))
+        {
+            message = "Please select both a patient and a doctor.";
+            isSuccess = false;
+            return;
+        }
 
-        Nav.NavigateTo("/appointments");
+        try
+        {
+            isSaving = true;
+            message = null;
+
+            var appointmentDateUtc = model.AppointmentDate.Kind == DateTimeKind.Utc
+                ? model.AppointmentDate
+                : DateTime.SpecifyKind(model.AppointmentDate, DateTimeKind.Utc);
+
+            var response = await Http.PostAsJsonAsync("api/appointments", new
+            {
+                model.PatientId,
+                model.DoctorId,
+                AppointmentDate = appointmentDateUtc,
+                model.Reason
+            });
+
+            if (response.IsSuccessStatusCode)
+            {
+                isSuccess = true;
+                message = "Appointment booked successfully!";
+                await Task.Delay(700);
+                Nav.NavigateTo("/appointments");
+            }
+            else
+            {
+                isSuccess = false;
+                var body = await response.Content.ReadAsStringAsync();
+                message = string.IsNullOrWhiteSpace(body)
+                    ? $"Failed to book appointment ({(int)response.StatusCode})."
+                    : $"Failed to book appointment: {body}";
+            }
+        }
+        catch (Exception ex)
+        {
+            isSuccess = false;
+            message = $"An error occurred: {ex.Message}";
+        }
+        finally
+        {
+            isSaving = false;
+        }
     }
 
+    class AppointmentCreateModel
+    {
+        public Guid PatientId { get; set; }
+        public string DoctorId { get; set; } = "";
+        public DateTime AppointmentDate { get; set; }
+        public string Reason { get; set; } = "";
+    }
 }

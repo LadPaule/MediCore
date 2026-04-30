@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.DataProtection;
 using MudBlazor.Services;
 
 using MediCore.BlazorUI;
+using MediCore.BlazorUI.Authentication;
 using MediCore.BlazorUI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,8 +26,7 @@ builder.Services.AddMudServices();
 //Todo: Authentication / Authorization
 
 
-// builder.Services.AddAuthorization();
-// builder.Services.AddAuthorizationCore();
+builder.Services.AddAuthorizationCore();
 
 builder.Services.AddCascadingAuthenticationState();
 //
@@ -68,11 +68,15 @@ builder.Services.AddScoped(sp =>
 
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<ThemeService>();
+builder.Services.AddScoped<NotificationService>();
+builder.Services.AddScoped<ToastService>();
 
 builder.Services.AddScoped<DashboardService>();
 builder.Services.AddScoped<PatientService>();
 builder.Services.AddScoped<AppointmentService>();
 builder.Services.AddScoped<PharmacyService>();
+builder.Services.AddScoped<DoctorService>();
+builder.Services.AddScoped<PrescriptionService>();
 
 
 //Todo: Docker compatibility

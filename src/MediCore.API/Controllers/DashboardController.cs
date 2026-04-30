@@ -2,6 +2,7 @@ using MediCore.Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+namespace MediCore.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

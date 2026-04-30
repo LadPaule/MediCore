@@ -1,0 +1,106 @@
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\bin\Debug\net10.0\appsettings.Development.json
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\bin\Debug\net10.0\appsettings.json
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\bin\Debug\net10.0\MediCore.BlazorUI.staticwebassets.runtime.json
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\bin\Debug\net10.0\MediCore.BlazorUI.staticwebassets.endpoints.json
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\bin\Debug\net10.0\MediCore.BlazorUI.exe
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\bin\Debug\net10.0\MediCore.BlazorUI.deps.json
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\bin\Debug\net10.0\MediCore.BlazorUI.runtimeconfig.json
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\bin\Debug\net10.0\MediCore.BlazorUI.dll
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\bin\Debug\net10.0\MediCore.BlazorUI.pdb
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\bin\Debug\net10.0\MudBlazor.dll
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\EmbeddedAttribute.cs
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\ValidatableTypeAttribute.cs
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\MediCore.BlazorUI.csproj.AssemblyReference.cache
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\rpswa.dswa.cache.json
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\MediCore.BlazorUI.GeneratedMSBuildEditorConfig.editorconfig
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\MediCore.BlazorUI.AssemblyInfoInputs.cache
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\MediCore.BlazorUI.AssemblyInfo.cs
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\MediCore.BlazorUI.csproj.CoreCompileInputs.cache
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\MediCore.BlazorUI.MvcApplicationPartsAssemblyInfo.cache
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\MediCore.BlazorUI.RazorAssemblyInfo.cache
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\MediCore.BlazorUI.RazorAssemblyInfo.cs
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\rjimswa.dswa.cache.json
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\rjsmrazor.dswa.cache.json
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\rjsmcshtml.dswa.cache.json
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\scopedcss\bundle\MediCore.BlazorUI.styles.css
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\compressed\tzxjg6is5z-{0}-rlc4y2i51z-rlc4y2i51z.gz
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\compressed\0wz98yz2xy-{0}-9ci77co5cp-9ci77co5cp.gz
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\compressed\o7k4cxtn0u-{0}-7h25wudq12-7h25wudq12.gz
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\compressed\dkks8b75b2-{0}-fbvx9p99yr-fbvx9p99yr.gz
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\compressed\6bzcp469jf-{0}-9ybu1f5osn-9ybu1f5osn.gz
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\compressed\g9ktfteh0c-{0}-bpk8xqwxhs-bpk8xqwxhs.gz
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\compressed\bi5sme1agc-{0}-8inm30yfxf-8inm30yfxf.gz
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\compressed\ifpesbarsb-{0}-ty4ezix168-ty4ezix168.gz
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\compressed\mmj4otmhq7-{0}-cmapd0fi15-cmapd0fi15.gz
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\compressed\7cakn96r5v-{0}-wk8x8xm0ah-wk8x8xm0ah.gz
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\compressed\fbevzi4coa-{0}-sjnzgf7e1h-sjnzgf7e1h.gz
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\compressed\phikbij4sr-{0}-5bzwdl5l6x-5bzwdl5l6x.gz
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\compressed\36ayou992l-{0}-iq29a93i5y-iq29a93i5y.gz
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\compressed\wu18f4qjfp-{0}-p2v1lgccdo-p2v1lgccdo.gz
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\compressed\6lk0wli6pr-{0}-bpye9txa2w-bpye9txa2w.gz
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\compressed\aycqh03z20-{0}-b9228eflpl-b9228eflpl.gz
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\compressed\e184o1sw9k-{0}-2tj1sjhksk-2tj1sjhksk.gz
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\staticwebassets.build.json
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\staticwebassets.build.json.cache
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\staticwebassets.development.json
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\staticwebassets.build.endpoints.json
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\swae.build.ex.cache
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\MediCore.9A21B6BF.Up2Date
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\MediCore.BlazorUI.dll
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\refint\MediCore.BlazorUI.dll
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\MediCore.BlazorUI.pdb
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\MediCore.BlazorUI.genruntimeconfig.cache
+B:\BDSAI\Semester3\asp_dotnet\Projects\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\ref\MediCore.BlazorUI.dll
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\EmbeddedAttribute.cs
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\ValidatableTypeAttribute.cs
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\MediCore.BlazorUI.csproj.AssemblyReference.cache
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\rpswa.dswa.cache.json
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\MediCore.BlazorUI.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\MediCore.BlazorUI.AssemblyInfoInputs.cache
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\MediCore.BlazorUI.AssemblyInfo.cs
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\MediCore.BlazorUI.csproj.CoreCompileInputs.cache
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\MediCore.BlazorUI.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\MediCore.BlazorUI.RazorAssemblyInfo.cache
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\MediCore.BlazorUI.RazorAssemblyInfo.cs
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\MediCore.BlazorUI.dll
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\refint\MediCore.BlazorUI.dll
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\MediCore.BlazorUI.pdb
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\bin\Debug\net10.0\appsettings.Development.json
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\bin\Debug\net10.0\appsettings.json
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\bin\Debug\net10.0\MediCore.BlazorUI.staticwebassets.runtime.json
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\bin\Debug\net10.0\MediCore.BlazorUI.staticwebassets.endpoints.json
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\bin\Debug\net10.0\MediCore.BlazorUI.exe
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\bin\Debug\net10.0\MediCore.BlazorUI.deps.json
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\bin\Debug\net10.0\MediCore.BlazorUI.runtimeconfig.json
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\bin\Debug\net10.0\MediCore.BlazorUI.dll
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\bin\Debug\net10.0\MediCore.BlazorUI.pdb
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\bin\Debug\net10.0\MudBlazor.dll
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\rjimswa.dswa.cache.json
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\rjsmrazor.dswa.cache.json
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\rjsmcshtml.dswa.cache.json
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\scopedcss\bundle\MediCore.BlazorUI.styles.css
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\compressed\tzxjg6is5z-{0}-rlc4y2i51z-rlc4y2i51z.gz
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\compressed\0wz98yz2xy-{0}-9ci77co5cp-9ci77co5cp.gz
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\compressed\o7k4cxtn0u-{0}-7h25wudq12-7h25wudq12.gz
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\compressed\dkks8b75b2-{0}-fbvx9p99yr-fbvx9p99yr.gz
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\compressed\6bzcp469jf-{0}-9ybu1f5osn-9ybu1f5osn.gz
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\compressed\g9ktfteh0c-{0}-bpk8xqwxhs-bpk8xqwxhs.gz
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\compressed\bi5sme1agc-{0}-8inm30yfxf-8inm30yfxf.gz
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\compressed\ifpesbarsb-{0}-ty4ezix168-ty4ezix168.gz
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\compressed\mmj4otmhq7-{0}-cmapd0fi15-cmapd0fi15.gz
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\compressed\7cakn96r5v-{0}-wk8x8xm0ah-wk8x8xm0ah.gz
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\compressed\fbevzi4coa-{0}-sjnzgf7e1h-sjnzgf7e1h.gz
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\compressed\phikbij4sr-{0}-5bzwdl5l6x-5bzwdl5l6x.gz
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\compressed\36ayou992l-{0}-iq29a93i5y-iq29a93i5y.gz
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\compressed\wu18f4qjfp-{0}-p2v1lgccdo-p2v1lgccdo.gz
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\compressed\6lk0wli6pr-{0}-bpye9txa2w-bpye9txa2w.gz
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\compressed\aycqh03z20-{0}-b9228eflpl-b9228eflpl.gz
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\compressed\e184o1sw9k-{0}-2tj1sjhksk-2tj1sjhksk.gz
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\staticwebassets.build.json
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\staticwebassets.build.json.cache
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\staticwebassets.development.json
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\staticwebassets.build.endpoints.json
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\swae.build.ex.cache
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\MediCore.9A21B6BF.Up2Date
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\MediCore.BlazorUI.genruntimeconfig.cache
+C:\Users\hp\Desktop\medicore yr2\medicore\src\MediCore.BlazorUI\obj\Debug\net10.0\ref\MediCore.BlazorUI.dll

@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "jm6rQ89565k=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\hp\\Desktop\\medicore yr2\\medicore\\src\\MediCore.BlazorUI\\MediCore.BlazorUI.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\hp\\.nuget\\packages\\microsoft.aspnetcore.app.internal.assets\\10.0.5\\microsoft.aspnetcore.app.internal.assets.10.0.5.nupkg.sha512",
+    "C:\\Users\\hp\\.nuget\\packages\\mudblazor\\9.1.0\\mudblazor.9.1.0.nupkg.sha512"
+  ],
+  "logs": []
+}

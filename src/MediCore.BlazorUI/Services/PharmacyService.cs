@@ -13,84 +13,155 @@ public class PharmacyService
     }
 
     public async Task<PharmacyStatsVM?> GetStatsAsync()
-        => await _http.GetFromJsonAsync<PharmacyStatsVM>("api/pharmacy/stats");
+    {
+        try
+        {
+            return await _http.GetFromJsonAsync<PharmacyStatsVM>("api/pharmacy/stats");
+        }
+        catch
+        {
+            return null;
+        }
+    }
 
     public async Task<List<MedicineVM>> GetMedicinesAsync()
-        => await _http.GetFromJsonAsync<List<MedicineVM>>("api/pharmacy/medicines") ?? new();
+    {
+        try
+        {
+            return await _http.GetFromJsonAsync<List<MedicineVM>>("api/pharmacy/medicines") ?? new();
+        }
+        catch
+        {
+            return new();
+        }
+    }
 
     public async Task<List<MedicineVM>> GetLowStockAsync()
-        => await _http.GetFromJsonAsync<List<MedicineVM>>("api/pharmacy/low-stock") ?? new();
+    {
+        try
+        {
+            return await _http.GetFromJsonAsync<List<MedicineVM>>("api/pharmacy/low-stock") ?? new();
+        }
+        catch
+        {
+            return new();
+        }
+    }
 
     public async Task<List<MedicineVM>> GetExpiringAsync()
-        => await _http.GetFromJsonAsync<List<MedicineVM>>("api/pharmacy/expiring") ?? new();
+    {
+        try
+        {
+            return await _http.GetFromJsonAsync<List<MedicineVM>>("api/pharmacy/expiring") ?? new();
+        }
+        catch
+        {
+            return new();
+        }
+    }
 
     public async Task<bool> DispenseAsync(DispenseMedicineVM dto)
     {
-        var res = await _http.PostAsJsonAsync("api/pharmacy/dispense", dto);
-        return res.IsSuccessStatusCode;
+        try
+        {
+            var res = await _http.PostAsJsonAsync("api/pharmacy/dispense", dto);
+            return res.IsSuccessStatusCode;
+        }
+        catch
+        {
+            return false;
+        }
     }
-    public async Task <List<MedicineVM>> GetInventory()
+
+    public async Task<List<MedicineVM>> GetInventory()
     {
-        return await _http.GetFromJsonAsync<List<MedicineVM>>("api/pharmacy/medicines")
-            ?? new List<MedicineVM>();
+        try
+        {
+            return await _http.GetFromJsonAsync<List<MedicineVM>>("api/pharmacy/medicines") ?? new();
+        }
+        catch
+        {
+            return new();
+        }
     }
 
-    public async Task DeleteMedicineAsync(int id)
-        => await _http.DeleteAsync($"api/pharmacy/medicines/{id}");
+    public async Task<bool> CreateMedicineAsync(CreateMedicineVM dto)
+    {
+        try
+        {
+            var res = await _http.PostAsJsonAsync("api/pharmacy/medicines", dto);
+            return res.IsSuccessStatusCode;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    public async Task<MedicineDetailVM?> GetMedicineAsync(Guid id)
+    {
+        try
+        {
+            return await _http.GetFromJsonAsync<MedicineDetailVM>($"api/pharmacy/medicines/{id}");
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    public async Task<(bool Success, string? Error)> RestockAsync(Guid id, RestockVM dto)
+    {
+        try
+        {
+            var res = await _http.PostAsJsonAsync($"api/pharmacy/medicines/{id}/restock", dto);
+            if (res.IsSuccessStatusCode) return (true, null);
+            return (false, await res.Content.ReadAsStringAsync());
+        }
+        catch (Exception ex)
+        {
+            return (false, ex.Message);
+        }
+    }
+
+    public async Task<(bool Success, string? Error)> AdjustStockAsync(Guid id, AdjustStockVM dto)
+    {
+        try
+        {
+            var res = await _http.PostAsJsonAsync($"api/pharmacy/medicines/{id}/adjust", dto);
+            if (res.IsSuccessStatusCode) return (true, null);
+            return (false, await res.Content.ReadAsStringAsync());
+        }
+        catch (Exception ex)
+        {
+            return (false, ex.Message);
+        }
+    }
+
+    public async Task<(bool Success, string? Error)> UpdateMedicineAsync(Guid id, UpdateMedicineVM dto)
+    {
+        try
+        {
+            var res = await _http.PutAsJsonAsync($"api/pharmacy/medicines/{id}", dto);
+            if (res.IsSuccessStatusCode) return (true, null);
+            return (false, await res.Content.ReadAsStringAsync());
+        }
+        catch (Exception ex)
+        {
+            return (false, ex.Message);
+        }
+    }
+
+    public async Task<bool> DeleteMedicineAsync(Guid id)
+    {
+        try
+        {
+            var res = await _http.DeleteAsync($"api/pharmacy/medicines/{id}");
+            return res.IsSuccessStatusCode;
+        }
+        catch
+        {
+            return false;
+        }
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// using System.Net.Http.Json;
-// 
-// public class PharmacyService
-// {
-//     private readonly HttpClient _http;
-//     public PharmacyService(HttpClient http)
-//     {
-//         _http = http;
-//     }
-// 
-//     public async Task<List<PharmacyInventory>?> GetInventory()
-//     {
-//         return await _http.GetFromJsonAsync<List<PharmacyInventory>>("api/pharmacy/inventory");
-//     }
-// 
-//     public async Task DispenseMedication(Guid prescriptionId)
-//     {
-//         await _http.PostAsJsonAsync("api/pharmacy/dispense", new
-//         {
-//             prescriptionId = prescriptionId
-//         });
-//     }
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

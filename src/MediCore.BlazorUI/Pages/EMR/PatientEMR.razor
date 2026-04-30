@@ -1,0 +1,84 @@
+@page "/emr/patients/{Id:guid}"
+@attribute [Authorize]
+@inject PatientService PatientService
+@inject HttpClient Http
+
+<a href="/emr/patients" class="btn btn-outline-secondary btn-sm mb-3">
+    <i class="bi bi-arrow-left"></i> Back to EMR
+</a>
+
+@if (isLoading)
+{
+    <div class="text-center py-5">
+        <div class="spinner-border text-primary" role="status"></div>
+    </div>
+}
+else if (patient == null)
+{
+    <div class="alert alert-warning">Patient not found.</div>
+}
+else
+{
+    <h3 class="mb-2">@patient.FirstName @patient.LastName</h3>
+    <p class="text-muted mb-4">Medical Records</p>
+
+    @if (records.Count == 0)
+    {
+        <div class="alert alert-info">
+            <i class="bi bi-info-circle me-2"></i>No medical records found for this patient.
+        </div>
+    }
+    else
+    {
+        @foreach (var record in records)
+        {
+            <div class="card mb-3 shadow-sm">
+                <div class="card-header d-flex justify-content-between">
+                    <strong>@record.CreatedAt.ToString("dd MMM yyyy")</strong>
+                    <span class="badge bg-primary">Record</span>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Diagnosis:</strong> @record.Diagnosis</p>
+                            <p><strong>Symptoms:</strong> @record.Symptoms</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Notes:</strong> @record.Notes</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+}
+
+@code {
+    [Parameter] public Guid Id { get; set; }
+    Patient? patient;
+    List<MedicalRecordVM> records = new();
+    bool isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            patient = await PatientService.GetPatient(Id);
+            records = await Http.GetFromJsonAsync<List<MedicalRecordVM>>($"api/medicalrecords/patient/{Id}") ?? new();
+        }
+        catch { }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    class MedicalRecordVM
+    {
+        public Guid Id { get; set; }
+        public string Diagnosis { get; set; } = "";
+        public string Symptoms { get; set; } = "";
+        public string Notes { get; set; } = "";
+        public DateTime CreatedAt { get; set; }
+    }
+}

@@ -1,6 +1,11 @@
+using System.Net.Http.Json;
+
+namespace MediCore.BlazorUI.Services;
+
 public class DashboardService
 {
     private readonly HttpClient _http;
+
     public DashboardService(HttpClient http)
     {
         _http = http;
@@ -8,18 +13,25 @@ public class DashboardService
 
     public async Task<int> GetPatientCount()
     {
-        return await _http.GetFromJsonAsync<int>("api/dashboard/patients");
-
+        try
+        {
+            return await _http.GetFromJsonAsync<int>("api/dashboard/patients");
+        }
+        catch
+        {
+            return 0;
+        }
     }
+
     public async Task<int> GetTodayAppointments()
     {
-        return await _http.GetFromJsonAsync<int>("api/dashboard/appointments/today");
+        try
+        {
+            return await _http.GetFromJsonAsync<int>("api/dashboard/appointments/today");
+        }
+        catch
+        {
+            return 0;
+        }
     }
-
-    // public async Task<DashboardStats> GetStats()
-    // {
-    //     return await _http.GetFromJsonAsync<DashboardStats>("api/dasboard") ?? new DashboardStats();
-    // }
 }
-
-

@@ -1,67 +1,154 @@
-@using MudBlazor
 @page "/patients/create"
+@attribute [Authorize]
 @inject PatientService PatientService
+@inject DoctorService DoctorService
+@inject AuthService AuthService
 @inject NavigationManager Navigation
 
-<EditForm Model="patient" OnValidSubmit="SavePatient">
-    <InputText @bind-Value="patient.FirstName" placeholder="First Name" class="form-control" />
-    <InputText @bind-Value="patient.LastName" placeholder="Last Name" class="form-control" />
+<h3 class="mb-4">Register New Patient</h3>
 
-    <InputDate @bind-Value="patient.DateOfBirth" class="form-control" />
+<div class="card" style="max-width: 600px;">
+    <div class="card-body">
+        <EditForm Model="model" OnValidSubmit="SavePatient">
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger mb-3" />
 
-    <InputText @bind-Value="patient.Gender" placeholder="Gender" class="form-control" />
+            <div class="mb-3">
+                <label class="form-label">First Name</label>
+                <InputText @bind-Value="model.FirstName" class="form-control" placeholder="First Name" />
+            </div>
 
-    <InputText @bind-Value="patient.Phone" placeholder="Phone" class="form-control" />
+            <div class="mb-3">
+                <label class="form-label">Last Name</label>
+                <InputText @bind-Value="model.LastName" class="form-control" placeholder="Last Name" />
+            </div>
 
-    <InputText @bind-Value="patient.Email" placeholder="Address" class="form-control" />
+            <div class="mb-3">
+                <label class="form-label">Date of Birth</label>
+                <InputDate @bind-Value="model.DateOfBirth" class="form-control" />
+            </div>
 
-    <button class="btn btn-success mt-3">Save</button>
+            <div class="mb-3">
+                <label class="form-label">Gender</label>
+                <InputSelect @bind-Value="model.Gender" class="form-control">
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </InputSelect>
+            </div>
 
-</EditForm>
+            <div class="mb-3">
+                <label class="form-label">Phone Number</label>
+                <InputText @bind-Value="model.PhoneNumber" class="form-control" placeholder="Phone number" />
+            </div>
 
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <InputText @bind-Value="model.Email" class="form-control" placeholder="Email address" />
+            </div>
 
+            <div class="mb-3">
+                <label class="form-label">Address</label>
+                <InputText @bind-Value="model.Address" class="form-control" placeholder="Address" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Assigned Doctor</label>
+                <InputSelect @bind-Value="model.AssignedDoctorId" class="form-control">
+                    <option value="">— Unassigned —</option>
+                    @foreach (var d in doctors)
+                    {
+                        <option value="@d.Id">Dr. @d.FirstName @d.LastName</option>
+                    }
+                </InputSelect>
+                <div class="form-text">The doctor responsible for this patient. Can be changed later.</div>
+            </div>
+
+            @if (message != null)
+            {
+                <div class="alert @(isSuccess ? "alert-success" : "alert-danger") mb-3">@message</div>
+            }
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-success" disabled="@isSaving">
+                    @(isSaving ? "Saving..." : "Save Patient")
+                </button>
+                <a href="/patients" class="btn btn-secondary">Cancel</a>
+            </div>
+        </EditForm>
+    </div>
+</div>
 
 @code {
+    PatientCreateModel model = new() { DateOfBirth = DateTime.Today.AddYears(-30) };
+    List<Doctor> doctors = new();
+    bool isSaving;
+    string? message;
+    bool isSuccess;
 
-    Patient patient = new();
-    private DateTime? _dobWrapper 
+    protected override async Task OnInitializedAsync()
     {
-        get => patient.DateOfBirth == default ? null : patient.DateOfBirth;
-        set => patient.DateOfBirth = value ?? DateTime.Now;
+        await AuthService.InitializeAsync();
+        doctors = await DoctorService.GetDoctorsAsync();
     }
 
     async Task SavePatient()
     {
-        await PatientService.CreatePatient(patient);
-        Navigation.NavigateTo("/patients");
+        try
+        {
+            isSaving = true;
+            message = null;
+
+            var dob = model.DateOfBirth == default
+                ? DateTime.Today.AddYears(-30)
+                : model.DateOfBirth;
+
+            var payload = new
+            {
+                model.FirstName,
+                model.LastName,
+                DateOfBirth = DateTime.SpecifyKind(dob, DateTimeKind.Utc),
+                model.Gender,
+                model.PhoneNumber,
+                model.Email,
+                model.Address,
+                AssignedDoctorId = string.IsNullOrWhiteSpace(model.AssignedDoctorId) ? null : model.AssignedDoctorId
+            };
+
+            var (ok, error) = await PatientService.CreatePatient(payload);
+            if (!ok)
+            {
+                isSuccess = false;
+                message = $"Failed to save patient. {error}";
+                return;
+            }
+
+            isSuccess = true;
+            message = "Patient registered successfully!";
+            await Task.Delay(700);
+            Navigation.NavigateTo("/patients");
+        }
+        catch (Exception ex)
+        {
+            isSuccess = false;
+            message = $"Failed to save patient. {ex.Message}";
+        }
+        finally
+        {
+            isSaving = false;
+        }
     }
 
-
-
-
-
+    class PatientCreateModel
+    {
+        public string FirstName { get; set; } = "";
+        public string LastName { get; set; } = "";
+        public DateTime DateOfBirth { get; set; }
+        public string Gender { get; set; } = "";
+        public string PhoneNumber { get; set; } = "";
+        public string Email { get; set; } = "";
+        public string Address { get; set; } = "";
+        public string? AssignedDoctorId { get; set; }
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

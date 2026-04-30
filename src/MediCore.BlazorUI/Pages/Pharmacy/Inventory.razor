@@ -1,49 +1,62 @@
-@using MediCore.BlazorUI.Models.Pharmacy
-@using MudBlazor
 @page "/pharmacy/inventory"
+@attribute [Authorize]
 @inject PharmacyService PharmacyService
+@using MudBlazor
 
-<MudText Typo="Typo.h4">Pharmacy Inventory</MudText>
+<MudText Typo="Typo.h4" Class="mb-4">Pharmacy Inventory</MudText>
 
-<MudTable Items="inventory">
-
-<HeaderContent>
-<MudTh>Medication</MudTh>
-<MudTh>Quantity</MudTh>
-<MudTh>Expiry Date</MudTh>
-<MudTh>Status</MudTh>
-</HeaderContent>
-
-<RowTemplate>
-
-<MudTd>@context.Name</MudTd>
-<MudTd>@context.StockQuantity</MudTd>
-<MudTd>@context.ExpiryDate.ToShortDateString()</MudTd>
-
-<MudTd>
-
-@if(context.StockQuantity < 10)
+@if (isLoading)
 {
-<MudChip T="string" Color="Color.Error">Low Stock</MudChip>
+    <div class="text-center py-5">
+        <MudProgressCircular Indeterminate="true" Color="Color.Primary" />
+        <MudText Class="mt-2">Loading inventory...</MudText>
+    </div>
+}
+else if (inventory.Count == 0)
+{
+    <MudAlert Severity="Severity.Info">No medicines in inventory yet.</MudAlert>
 }
 else
 {
-<MudChip T="string" Color="Color.Success">Available</MudChip>
+    <MudTable Items="inventory" Hover="true" Striped="true">
+        <HeaderContent>
+            <MudTh>Medication</MudTh>
+            <MudTh>Quantity</MudTh>
+            <MudTh>Expiry Date</MudTh>
+            <MudTh>Status</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd>@context.Name</MudTd>
+            <MudTd>@context.StockQuantity</MudTd>
+            <MudTd>@context.ExpiryDate.ToShortDateString()</MudTd>
+            <MudTd>
+                @if (context.StockQuantity < 10)
+                {
+                    <MudChip T="string" Color="Color.Error" Size="Size.Small">Low Stock</MudChip>
+                }
+                else
+                {
+                    <MudChip T="string" Color="Color.Success" Size="Size.Small">Available</MudChip>
+                }
+            </MudTd>
+        </RowTemplate>
+    </MudTable>
 }
-
-</MudTd>
-
-</RowTemplate>
-
-</MudTable>
 
 @code {
+    List<MedicineVM> inventory = new();
+    bool isLoading = true;
 
-List<MedicineVM> inventory = new();
-
-protected override async Task OnInitializedAsync()
-{
-    inventory = await PharmacyService.GetMedicinesAsync();
-}
-
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            inventory = await PharmacyService.GetMedicinesAsync();
+        }
+        catch { }
+        finally
+        {
+            isLoading = false;
+        }
+    }
 }

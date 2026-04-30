@@ -32,14 +32,12 @@
             <button type="submit" class="login-button">Sign in</button>
         </EditForm>
 
-        @* @if (errorMessage != null)
-        Todo: will handle Auth later
-        
+        @if (errorMessage != null)
         {
             <div class="error-message">
                 @errorMessage
             </div>
-        } *@
+        }
     </div>
 </div>
 
@@ -185,21 +183,34 @@
 
 @code {
     LoginRequest loginModel = new();
-    @* string? errorMessage; *@
+    string? errorMessage;
+    bool isLoading = false;
 
     async Task HandleLogin()
     {
-        var success = await AuthService.Login(loginModel);
+        errorMessage = null;
+        isLoading = true;
 
-        if (success)
+        try
         {
-            Nav.NavigateTo("/dashboard");
+            var success = await AuthService.Login(loginModel);
+
+            if (success)
+            {
+                Nav.NavigateTo("/dashboard");
+            }
+            else
+            {
+                errorMessage = "Invalid email or password. Please try again.";
+            }
         }
-        else
+        catch
         {
-            Nav.NavigateTo("/dashboard");
-            @* Todo: Will handle Authentication later *@
-            @* errorMessage = "Invalid credentials"; *@
+            errorMessage = "Unable to connect to the server. Please try again later.";
+        }
+        finally
+        {
+            isLoading = false;
         }
     }
 }

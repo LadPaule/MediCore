@@ -1,65 +1,104 @@
 @page "/pharmacy/dispense"
-@using MediCore.BlazorUI.Models.Pharmacy
+@attribute [Authorize]
 @inject PharmacyService PharmacyService
 @using MudBlazor
 
 <MudPaper Class="pa-6 mx-auto" Style="max-width: 700px;">
     <MudText Typo="Typo.h4" Class="mb-4">Dispense Medicine</MudText>
 
-    <MudSelect T="int" Label="Medicine" @bind-Value="model.MedicineId" Required="true">
-        @foreach (var medicine in medicines)
-        {
-            <MudSelectItem T="int" Value="@medicine.Id">
-                @medicine.Name (@medicine.StockQuantity in stock)
-            </MudSelectItem>
-        }
-    </MudSelect>
-
-    <MudNumericField T="int" Label="Quantity" @bind-Value="model.Quantity" Min="1" Required="true" Class="mt-4" />
-
-    <MudButton Variant="Variant.Filled"
-               Color="Color.Primary"
-               Class="mt-4"
-               OnClick="DispenseMedicine">
-        Dispense
-    </MudButton>
-
-    @if (!string.IsNullOrWhiteSpace(message))
+    @if (isLoading)
     {
-        <MudAlert Severity="@messageSeverity" Class="mt-4">
-            @message
-        </MudAlert>
+        <MudProgressCircular Indeterminate="true" />
+    }
+    else
+    {
+        <MudSelect T="Guid" Label="Medicine" @bind-Value="selectedMedicationId" Required="true">
+            @foreach (var medicine in medicines)
+            {
+                <MudSelectItem T="Guid" Value="@medicine.Id">
+                    @medicine.Name (@medicine.StockQuantity in stock)
+                </MudSelectItem>
+            }
+        </MudSelect>
+
+        <MudNumericField T="int" Label="Quantity" @bind-Value="quantity" Min="1" Required="true" Class="mt-4" />
+
+        <MudButton Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   Class="mt-4"
+                   OnClick="HandleDispense"
+                   Disabled="isDispensing">
+            @(isDispensing ? "Dispensing..." : "Dispense")
+        </MudButton>
+
+        @if (!string.IsNullOrWhiteSpace(message))
+        {
+            <MudAlert Severity="@messageSeverity" Class="mt-4">
+                @message
+            </MudAlert>
+        }
     }
 </MudPaper>
 
 @code {
     private List<MedicineVM> medicines = new();
-    private DispenseMedicineVM model = new();
+    private Guid selectedMedicationId;
+    private int quantity = 1;
     private string? message;
     private Severity messageSeverity = Severity.Info;
+    private bool isDispensing;
+    private bool isLoading = true;
 
     protected override async Task OnInitializedAsync()
     {
         medicines = await PharmacyService.GetMedicinesAsync();
+        isLoading = false;
     }
 
-    private async Task DispenseMedicine()
+    private async Task HandleDispense()
     {
-        message = null;
-
-        var success = await PharmacyService.DispenseAsync(model);
-
-        if (success)
+        if (selectedMedicationId == Guid.Empty)
         {
-            messageSeverity = Severity.Success;
-            message = "Medication dispensed successfully.";
-            medicines = await PharmacyService.GetMedicinesAsync();
-            model = new DispenseMedicineVM();
+            messageSeverity = Severity.Warning;
+            message = "Please select a medicine.";
+            return;
         }
-        else
+
+        message = null;
+        isDispensing = true;
+
+        try
+        {
+            var dto = new DispenseMedicineVM
+            {
+                MedicationId = selectedMedicationId,
+                Quantity = quantity
+            };
+
+            var success = await PharmacyService.DispenseAsync(dto);
+
+            if (success)
+            {
+                messageSeverity = Severity.Success;
+                message = "Medication dispensed successfully.";
+                medicines = await PharmacyService.GetMedicinesAsync();
+                selectedMedicationId = Guid.Empty;
+                quantity = 1;
+            }
+            else
+            {
+                messageSeverity = Severity.Error;
+                message = "Dispense failed. Check stock or medicine selection.";
+            }
+        }
+        catch
         {
             messageSeverity = Severity.Error;
-            message = "Dispense failed. Check stock or medicine selection.";
+            message = "An error occurred while dispensing.";
+        }
+        finally
+        {
+            isDispensing = false;
         }
     }
 }

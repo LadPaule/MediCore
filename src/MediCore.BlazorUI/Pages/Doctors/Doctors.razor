@@ -1,0 +1,60 @@
+@page "/doctors"
+@attribute [Authorize]
+@inject DoctorService DoctorService
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="m-0">Doctors</h3>
+    <AuthorizeView Roles="Admin">
+        <a href="/doctors/create" class="btn btn-primary">
+            <i class="bi bi-plus-lg me-1"></i> Register Doctor
+        </a>
+    </AuthorizeView>
+</div>
+
+@if (isLoading)
+{
+    <div class="text-center py-5">
+        <div class="spinner-border text-primary" role="status"></div>
+    </div>
+}
+else if (!doctors.Any())
+{
+    <p class="text-muted text-center py-3">No doctors registered yet.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var d in doctors)
+            {
+                <tr>
+                    <td>@d.FirstName @d.LastName</td>
+                    <td>@d.Email</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    List<Doctor> doctors = new();
+    bool isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            doctors = await DoctorService.GetDoctorsAsync();
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+}

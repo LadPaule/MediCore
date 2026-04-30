@@ -1,48 +1,129 @@
 @page "/appointments"
-
+@attribute [Authorize]
 @inject AppointmentService AppointmentService
+@inject AuthService AuthService
+@inject AuthenticationStateProvider AuthState
 
-<h3>Appointments</h3>
-
-<a href="/appointments/create" class="btn btn-primary">Book Appointment</a>
-
-<table class="table">
-
-    <thead>
-        <tr>
-            <th>Patient</th>
-            <th>Reason</th>
-            <th>Date</th>
-            <th>Attending Doctor</th>
-            <th>Status</th>
-        </tr>
-    </thead>
-
-    <tbody>
-
-        @foreach (var a in appointments)
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h3 class="mb-0">@(scopedToDoctor ? "My Appointments" : "Appointments")</h3>
+        @if (scopedToDoctor)
         {
-            <tr>
-                <td>@a.PatientName</td>
-                <td>@a.Reason</td>
-                <td>@a.AppointmentDate</td>
-                <td>@a.DoctorName</td>
-                <td>@a.Status</td>
-
-            </tr>
+            <small class="text-muted">Appointments where you are the doctor.</small>
         }
+    </div>
+    <a href="/appointments/create" class="btn btn-primary">
+        <i class="bi bi-plus-circle me-1"></i> Book Appointment
+    </a>
+</div>
 
-    </tbody>
-
-</table>
+@if (isLoading)
+{
+    <div class="text-center py-5">
+        <div class="spinner-border text-primary" role="status"></div>
+        <p class="mt-2 text-muted">Loading appointments...</p>
+    </div>
+}
+else if (errorMessage != null)
+{
+    <div class="alert alert-danger">
+        <i class="bi bi-exclamation-triangle me-2"></i>@errorMessage
+        <button class="btn btn-sm btn-outline-danger ms-3" @onclick="LoadAppointments">Retry</button>
+    </div>
+}
+else if (appointments.Count == 0)
+{
+    <div class="text-center py-5">
+        <i class="bi bi-calendar" style="font-size: 3rem; color: #ccc;"></i>
+        <p class="text-muted mt-2">
+            @(scopedToDoctor
+                ? "You have no appointments yet."
+                : "No appointments scheduled yet.")
+        </p>
+    </div>
+}
+else
+{
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Patient</th>
+                <th>Reason</th>
+                <th>Date</th>
+                @if (!scopedToDoctor)
+                {
+                    <th>Doctor</th>
+                }
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var a in appointments)
+            {
+                <tr>
+                    <td>
+                        <a href="/patients/@a.PatientId">@a.PatientName</a>
+                    </td>
+                    <td>@a.Reason</td>
+                    <td>@a.AppointmentDate.ToString("dd MMM yyyy, HH:mm")</td>
+                    @if (!scopedToDoctor)
+                    {
+                        <td>@a.DoctorName</td>
+                    }
+                    <td>
+                        <span class="badge @GetStatusBadge(a.Status)">@a.Status</span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
 
 @code {
-
     List<Appointment> appointments = new();
+    bool isLoading = true;
+    bool scopedToDoctor;
+    string? errorMessage;
 
     protected override async Task OnInitializedAsync()
     {
-        appointments = await AppointmentService.GetAppointments() ?? new();
+        await LoadAppointments();
     }
 
+    async Task LoadAppointments()
+    {
+        try
+        {
+            isLoading = true;
+            errorMessage = null;
+            await AuthService.InitializeAsync();
+
+            var auth = await AuthState.GetAuthenticationStateAsync();
+            var user = auth.User;
+            var isDoctor = user.IsInRole("Doctor");
+            var isAdmin = user.IsInRole("Admin");
+            scopedToDoctor = isDoctor && !isAdmin;
+
+            appointments = scopedToDoctor
+                ? await AppointmentService.GetMyAppointments()
+                : await AppointmentService.GetAppointments();
+        }
+        catch
+        {
+            errorMessage = "Failed to load appointments.";
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    string GetStatusBadge(string status) => status?.ToLower() switch
+    {
+        "confirmed" => "bg-success",
+        "pending" => "bg-warning text-dark",
+        "cancelled" => "bg-danger",
+        "completed" => "bg-info",
+        _ => "bg-secondary"
+    };
 }

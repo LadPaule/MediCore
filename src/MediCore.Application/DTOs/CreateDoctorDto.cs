@@ -1,12 +1,22 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace MediCore.Application.DTOs;
 
-public class Doctor
+public class CreateDoctorDto
 {
-    public Guid Id {get; set;}
-    public  string FirstName {get; set;}="";
-    public  string LastName {get; set;}="";
-    public  string Speciality {get; set;}="";
-    public  string Email {get; set;}="";
-    public Guid DepartmentId {get; set;}
+    [Required]
+    public string FirstName { get; set; } = "";
 
+    [Required]
+    public string LastName { get; set; } = "";
+
+    [Required]
+    [EmailAddress]
+    public string Email { get; set; } = "";
+
+    [Required]
+    [MinLength(6)]
+    public string Password { get; set; } = "";
+
+    public string Speciality { get; set; } = "";
 }

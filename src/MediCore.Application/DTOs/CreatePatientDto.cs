@@ -15,6 +15,10 @@ public class CreatePatientDto
     [Required]
     public required string PhoneNumber {get; set;}
     [Required]
+    [EmailAddress]
+    public required string Email {get; set;}
+    [Required]
     public required string Address {get; set;}
 
+    public string? AssignedDoctorId {get; set;}
 }

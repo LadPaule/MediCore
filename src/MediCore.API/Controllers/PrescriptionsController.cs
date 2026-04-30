@@ -9,10 +9,10 @@ namespace MediCore.API.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 // [Authorize(Roles = "Doctor")]
-public class PresriptionController : ControllerBase
+public class PrescriptionsController : ControllerBase
 {
     private readonly PrescriptionService _service;
-    public PresriptionController(PrescriptionService service)
+    public PrescriptionsController(PrescriptionService service)
     {
         _service = service;
     }

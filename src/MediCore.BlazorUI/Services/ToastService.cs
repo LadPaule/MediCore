@@ -1,3 +1,5 @@
+namespace MediCore.BlazorUI.Services;
+
 public class ToastService
 {
     public event Action<string>? OnShow;

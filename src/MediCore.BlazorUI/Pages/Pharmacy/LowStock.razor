@@ -1,41 +1,71 @@
 @page "/pharmacy/low-stock"
-@using MediCore.BlazorUI.Models.Pharmacy
-@inject HttpClient Http
+@attribute [Authorize]
+@inject PharmacyService PharmacyService
 
-<h3>Low Stock Medicines</h3>
+<h3 class="mb-4">Low Stock Medicines</h3>
 
-<table class="table table-striped">
-
-<thead>
-<tr>
-<th>Name</th>
-<th>Stock</th>
-<th>Expiry</th>
-</tr>
-</thead>
-
-<tbody>
-
-@foreach(var m in medicines)
+@if (isLoading)
 {
-<tr>
-<td>@m.Name</td>
-<td>@m.StockQuantity</td>
-<td>@m.ExpiryDate</td>
-</tr>
+    <div class="text-center py-5">
+        <div class="spinner-border text-warning" role="status"></div>
+        <p class="mt-2 text-muted">Checking stock levels...</p>
+    </div>
+}
+else if (errorMessage != null)
+{
+    <div class="alert alert-danger">@errorMessage</div>
+}
+else if (medicines.Count == 0)
+{
+    <div class="alert alert-success">
+        <i class="bi bi-check-circle me-2"></i>All medicines are well stocked.
+    </div>
+}
+else
+{
+    <div class="alert alert-warning mb-3">
+        <i class="bi bi-exclamation-triangle me-2"></i>@medicines.Count medicine(s) running low on stock.
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Stock</th>
+                <th>Expiry</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var m in medicines)
+            {
+                <tr>
+                    <td>@m.Name</td>
+                    <td><span class="badge bg-danger">@m.StockQuantity</span></td>
+                    <td>@m.ExpiryDate.ToShortDateString()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
 
-</tbody>
+@code {
+    List<MedicineVM> medicines = new();
+    bool isLoading = true;
+    string? errorMessage;
 
-</table>
-
-@code{
-
-List<MedicineVM> medicines = new();
-
-protected override async Task OnInitializedAsync()
-{
-    medicines = await Http.GetFromJsonAsync<List<MedicineVM>>("api/pharmacy/low-stock") ?? new();
-}
-
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            medicines = await PharmacyService.GetLowStockAsync();
+        }
+        catch
+        {
+            errorMessage = "Failed to load low stock data.";
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
 }

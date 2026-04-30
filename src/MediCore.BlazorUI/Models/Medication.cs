@@ -1,3 +1,5 @@
+namespace MediCore.BlazorUI.Models;
+
 public class Medication
 {
     public Guid Id { get; set; }

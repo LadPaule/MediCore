@@ -1,99 +1,138 @@
 @page "/pharmacy/dashboard"
-@using MediCore.BlazorUI.Models.Pharmacy
-@inject HttpClient Http
+@inject PharmacyService PharmacyService
 
-<h3>Pharmacy Dashboard</h3>
-
-<div class="row">
-
-<div class="col-md-3">
-<div class="card text-bg-primary mb-3">
-<div class="card-body">
-<h5>Total Medicines</h5>
-<h3>@stats.totalMedicines</h3>
-</div>
-</div>
-</div>
-
-<div class="col-md-3">
-<div class="card text-bg-success mb-3">
-<div class="card-body">
-<h5>Available Stock</h5>
-<h3>@stats.availableStock</h3>
-</div>
-</div>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="m-0">Pharmacy Dashboard</h3>
+    <div class="d-flex gap-2">
+        <a href="/pharmacy/medicines" class="btn btn-outline-primary">
+            <i class="bi bi-capsule me-1"></i> All Medicines
+        </a>
+        <a href="/pharmacy/medicines/create" class="btn btn-primary">
+            <i class="bi bi-plus-lg me-1"></i> Add Medicine
+        </a>
+        <a href="/pharmacy/dispense" class="btn btn-outline-secondary">
+            <i class="bi bi-box-arrow-right me-1"></i> Dispense
+        </a>
+    </div>
 </div>
 
-<div class="col-md-3">
-<div class="card text-bg-warning mb-3">
-<div class="card-body">
-<h5>Low Stock</h5>
-<h3>@stats.lowStock</h3>
-</div>
-</div>
-</div>
-
-<div class="col-md-3">
-<div class="card text-bg-danger mb-3">
-<div class="card-body">
-<h5>Expiring Soon</h5>
-<h3>@stats.expiringSoon</h3>
-</div>
-</div>
-</div>
-
-</div>
-
-<h4>Low Stock Medicines</h4>
-
-<table class="table table-striped">
-
-<thead>
-<tr>
-<th>Name</th>
-<th>Stock</th>
-<th>Expiry</th>
-</tr>
-</thead>
-
-<tbody>
-
-@foreach(var m in lowStock)
+@if (isLoading)
 {
-<tr>
-<td>@m.Name</td>
-<td>@m.StockQuantity</td>
-<td>@m.ExpiryDate.ToShortDateString()</td>
-</tr>
+    <div class="text-center py-5">
+        <div class="spinner-border text-primary" role="status"></div>
+        <p class="mt-2">Loading pharmacy data...</p>
+    </div>
+}
+else if (errorMessage != null)
+{
+    <div class="alert alert-danger">@errorMessage</div>
+}
+else
+{
+    <div class="row">
+
+        <div class="col-md-3">
+            <a href="/pharmacy/medicines" class="text-decoration-none">
+                <div class="card text-bg-primary mb-3" style="cursor:pointer;">
+                    <div class="card-body">
+                        <h5>Total Medicines</h5>
+                        <h3>@stats.TotalMedicines</h3>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a href="/pharmacy/medicines" class="text-decoration-none">
+                <div class="card text-bg-success mb-3" style="cursor:pointer;">
+                    <div class="card-body">
+                        <h5>Available Stock</h5>
+                        <h3>@stats.AvailableStock</h3>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a href="/pharmacy/low-stock" class="text-decoration-none">
+                <div class="card text-bg-warning mb-3" style="cursor:pointer;">
+                    <div class="card-body">
+                        <h5>Low Stock</h5>
+                        <h3>@stats.LowStock</h3>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a href="/pharmacy/expiring" class="text-decoration-none">
+                <div class="card text-bg-danger mb-3" style="cursor:pointer;">
+                    <div class="card-body">
+                        <h5>Expiring Soon</h5>
+                        <h3>@stats.ExpiringSoon</h3>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+    </div>
+
+    <h4>Low Stock Medicines</h4>
+
+    @if (lowStock.Count == 0)
+    {
+        <p class="text-muted">No low stock medicines at this time.</p>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Stock</th>
+                    <th>Expiry</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var m in lowStock)
+                {
+                    <tr>
+                        <td>@m.Name</td>
+                        <td>@m.StockQuantity</td>
+                        <td>@m.ExpiryDate.ToShortDateString()</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
 }
 
-</tbody>
+@code {
+    PharmacyStatsVM stats = new();
+    List<MedicineVM> lowStock = new();
+    bool isLoading = true;
+    string? errorMessage;
 
-</table>
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadDashboard();
+    }
 
-@code{
-
-PharmacyStats stats = new();
-
-List<MedicineVM> lowStock = new();
-
-protected override async Task OnInitializedAsync()
-{
-    await LoadDashboard();
-}
-
-async Task LoadDashboard()
-{
-    stats = await Http.GetFromJsonAsync<PharmacyStats>("api/pharmacy/stats") ?? new();
-    lowStock = await Http.GetFromJsonAsync<List<MedicineVM>>("api/pharmacy/low-stock") ?? new();
-}
-
-class PharmacyStats
-{
-    public int totalMedicines {get;set;}
-    public int availableStock {get;set;}
-    public int lowStock {get;set;}
-    public int expiringSoon {get;set;}
-}
-
+    async Task LoadDashboard()
+    {
+        try
+        {
+            isLoading = true;
+            stats = await PharmacyService.GetStatsAsync() ?? new();
+            lowStock = await PharmacyService.GetLowStockAsync();
+        }
+        catch
+        {
+            errorMessage = "Failed to load pharmacy data. Please check API connection.";
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
 }

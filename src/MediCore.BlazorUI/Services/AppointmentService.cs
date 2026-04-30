@@ -1,4 +1,7 @@
 using System.Net.Http.Json;
+using MediCore.BlazorUI.Models;
+
+namespace MediCore.BlazorUI.Services;
 
 public class AppointmentService
 {
@@ -9,22 +12,65 @@ public class AppointmentService
         _http = http;
     }
 
-    public async Task<List<Appointment>?> GetAppointments()
+    public async Task<List<Appointment>> GetAppointments()
     {
-        return await _http.GetFromJsonAsync<List<Appointment>>("api/appointments");
+        try
+        {
+            return await _http.GetFromJsonAsync<List<Appointment>>("api/appointments") ?? new();
+        }
+        catch
+        {
+            return new();
+        }
     }
 
-    public async Task CreateAppointment(Appointment appointment)
+    public async Task<List<Appointment>> GetMyAppointments()
     {
-        await _http.PostAsJsonAsync("api/appointments", appointment);
+        try
+        {
+            return await _http.GetFromJsonAsync<List<Appointment>>("api/appointments/me") ?? new();
+        }
+        catch
+        {
+            return new();
+        }
     }
 
-    public async Task Delete(Guid id)
+    public async Task<List<Appointment>> GetPatientAppointments(Guid patientId)
     {
-        await _http.DeleteAsync($"api/appointments/{id}");
+        try
+        {
+            return await _http.GetFromJsonAsync<List<Appointment>>($"api/appointments/patient/{patientId}") ?? new();
+        }
+        catch
+        {
+            return new();
+        }
+    }
+
+    public async Task<bool> CreateAppointment(Appointment appointment)
+    {
+        try
+        {
+            var response = await _http.PostAsJsonAsync("api/appointments", appointment);
+            return response.IsSuccessStatusCode;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    public async Task<bool> Delete(Guid id)
+    {
+        try
+        {
+            var response = await _http.DeleteAsync($"api/appointments/{id}");
+            return response.IsSuccessStatusCode;
+        }
+        catch
+        {
+            return false;
+        }
     }
 }
-
-
-
-

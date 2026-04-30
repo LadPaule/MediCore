@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using MediCore.Domain.Entities;
 using MediCore.Application.DTOs;
 
+namespace MediCore.API.Controllers;
+
 [ApiController]
 [Route("api/admin/users")]
 public class AdminUsersController : ControllerBase
@@ -20,7 +22,7 @@ public class AdminUsersController : ControllerBase
 
     // GET all users
     [HttpGet]
-    public IActionResult GetUsers()
+    public async Task<IActionResult> GetUsers()
     {
         var users = _userManager.Users
             .Select(u => new
@@ -34,7 +36,27 @@ public class AdminUsersController : ControllerBase
             })
             .ToList();
 
-        return Ok(users);
+        var withRoles = new List<object>(users.Count);
+        foreach (var u in users)
+        {
+            var entity = await _userManager.FindByIdAsync(u.Id);
+            var roles = entity != null
+                ? await _userManager.GetRolesAsync(entity)
+                : new List<string>();
+
+            withRoles.Add(new
+            {
+                u.Id,
+                u.FirstName,
+                u.LastName,
+                u.Email,
+                u.UserName,
+                u.CreatedAt,
+                Role = string.Join(", ", roles)
+            });
+        }
+
+        return Ok(withRoles);
     }
 
     //Todo CREATE user

@@ -4,7 +4,7 @@ namespace MediCore.Application.Interfaces;
 
 public interface IPharmacyRepository
 {
-    Task<PharmacyInventory?> GetInventory(Guid mediicationId);
+    Task<PharmacyInventory?> GetInventory(Guid medicationId);
     Task UpdateInventory(PharmacyInventory inventory);
     Task AddDispensedMedication(DispensedMedication dispensed);
     Task AddStockTransaction(StockTransaction transaction);

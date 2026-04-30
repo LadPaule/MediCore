@@ -6,7 +6,7 @@ namespace MediCore.Application.DTOs;
 // Todo: Create the Prescription Data Transfer Objects
 public class CreatePrescriptionDto
 {
-    public Guid MedicalReordId {get; set;}
+    public Guid MedicalRecordId {get; set;}
     public string DoctorId {get; set;} = default!;
     public List<PrescriptionItemDto> Items {get; set;} = new();
 

@@ -1,9 +1,10 @@
 @page "/"
+@attribute [AllowAnonymous]
 @inject NavigationManager Nav
 
-@code{
-protected override void OnInitialized()
-{
-    Nav.NavigateTo("/login");
-}
+@code {
+    protected override void OnInitialized()
+    {
+        Nav.NavigateTo("/login");
+    }
 }

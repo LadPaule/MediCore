@@ -1,23 +1,40 @@
-﻿@using MudBlazor
+@using MudBlazor
 @inherits LayoutComponentBase
+@inject AuthService AuthService
+
+<MudThemeProvider />
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
 
 <div class="app-layout">
     <TopBar OnSidebarToggle="ToggleSidebar"/>
     <div class="main-container">
         <Sidebar collapsed="_sidebarCollapsed" />
-            
+
         <div class="content">
             @Body
         </div>
     </div>
 </div>
 
+<Toast />
+
 @code {
     bool _sidebarCollapsed = false;
+    bool _initialized = false;
 
     void ToggleSidebar()
     {
         _sidebarCollapsed = !_sidebarCollapsed;
     }
-}
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && !_initialized)
+        {
+            _initialized = true;
+            await AuthService.InitializeAsync();
+        }
+    }
+}

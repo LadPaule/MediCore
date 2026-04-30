@@ -1,30 +1,92 @@
 @page "/pharmacy"
-@* @attribute [Authorize(Roles = "Admin, Pharmacist")] *@
+@attribute [Authorize(Roles = "Admin,Pharmacist")]
 @inject PharmacyService PharmacyService
+@inject NavigationManager Nav
 
-<h3>Pharmacy Inventory</h3>
+<h3 class="mb-4">Pharmacy</h3>
 
-<table class="table">
+@if (isLoading)
+{
+    <div class="text-center py-5">
+        <div class="spinner-border text-primary" role="status"></div>
+        <p class="mt-2 text-muted">Loading inventory...</p>
+    </div>
+}
+else
+{
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-center p-3 shadow-sm" style="cursor:pointer" @onclick='() => Nav.NavigateTo("/pharmacy/dashboard")'>
+                <i class="bi bi-bar-chart-fill text-primary" style="font-size: 2rem;"></i>
+                <p class="mt-2 mb-0 fw-bold">Dashboard</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center p-3 shadow-sm" style="cursor:pointer" @onclick='() => Nav.NavigateTo("/pharmacy/medicines")'>
+                <i class="bi bi-capsule text-success" style="font-size: 2rem;"></i>
+                <p class="mt-2 mb-0 fw-bold">Medicines</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center p-3 shadow-sm" style="cursor:pointer" @onclick='() => Nav.NavigateTo("/pharmacy/medicines/create")'>
+                <i class="bi bi-plus-square text-primary" style="font-size: 2rem;"></i>
+                <p class="mt-2 mb-0 fw-bold">Add Medicine</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center p-3 shadow-sm" style="cursor:pointer" @onclick='() => Nav.NavigateTo("/pharmacy/dispense")'>
+                <i class="bi bi-box-arrow-right text-info" style="font-size: 2rem;"></i>
+                <p class="mt-2 mb-0 fw-bold">Dispense</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center p-3 shadow-sm" style="cursor:pointer" @onclick='() => Nav.NavigateTo("/pharmacy/low-stock")'>
+                <i class="bi bi-exclamation-triangle text-warning" style="font-size: 2rem;"></i>
+                <p class="mt-2 mb-0 fw-bold">Low Stock</p>
+            </div>
+        </div>
+    </div>
 
-    <thead>
-        <tr>
-            <th>Medicine</th>
-            <th>Stock</th>
-            <th>Price</th>
-        </tr>
-    </thead>
+    <h5>Quick View - Inventory</h5>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Medicine</th>
+                <th>Stock</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var m in medicines)
+            {
+                <tr>
+                    <td>@m.Name</td>
+                    <td>
+                        <span class="badge @(m.StockQuantity < 10 ? "bg-danger" : "bg-success")">
+                            @m.StockQuantity
+                        </span>
+                    </td>
+                    <td>@m.Price.ToString("C")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
 
-    <tbody>
-        @* 
-    @foreach(var m in medicines)
+@code {
+    List<MedicineVM> medicines = new();
+    bool isLoading = true;
+
+    protected override async Task OnInitializedAsync()
     {
-    <tr>
-        <td>@m.Name</td>
-        <td>@m.Stock</td>
-        <td>@m.Price</td>
-    </tr>
-    } *@
-
-    </tbody>
-
-</table>
+        try
+        {
+            medicines = await PharmacyService.GetMedicinesAsync();
+        }
+        catch { }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+}

@@ -43,14 +43,16 @@ builder.Services.AddRazorPages(options =>
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(
-        builder.Configuration.GetConnectionString("DefaultConnection"),
-        o =>
-        {
-            o.EnableRetryOnFailure(
-                maxRetryCount: 10,
-                maxRetryDelay: TimeSpan.FromSeconds(5),
-                errorCodesToAdd: null);
-        }));
+            builder.Configuration.GetConnectionString("DefaultConnection"),
+            o =>
+            {
+                o.EnableRetryOnFailure(
+                    maxRetryCount: 10,
+                    maxRetryDelay: TimeSpan.FromSeconds(5),
+                    errorCodesToAdd: null);
+            })
+        .ConfigureWarnings(w => w.Ignore(
+            Microsoft.EntityFrameworkCore.Diagnostics.RelationalEventId.PendingModelChangesWarning)));
 
 // Todo: Identity
 
@@ -61,66 +63,38 @@ builder.Services
     .AddDefaultTokenProviders();
 
 
-//Todo: Authentication (JWT + Identity Cookies)
+//Todo: Authentication (JWT)
 
-// builder.Services
-//     .AddAuthentication(options =>
-//     {
-//         // CHANGE: Use JwtBearer as the default so the API returns 401 instead of a 302 redirect
-//         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-//         options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-//         options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-//     })
-//     .AddJwtBearer(options =>
-//     {
-//         options.TokenValidationParameters = new TokenValidationParameters
-//         {
-//             ValidateIssuer = false,
-//             ValidateAudience = false,
-//             ValidateLifetime = true,
-//             ValidateIssuerSigningKey = true,
-//             IssuerSigningKey = new SymmetricSecurityKey(
-//                 Encoding.UTF8.GetBytes(configuration["jwt:Key"] ?? "SUPER_SECRET_KEY_12345"))
-//         };
-//         
-//         // This prevents the "Unsafe attempt" browser error by ensuring 
-//         // the API doesn't try to redirect to a non-existent login page.
-//         options.Events = new JwtBearerEvents
-//         {
-//             OnChallenge = context =>
-//             {
-//                 context.HandleResponse();
-//                 context.Response.StatusCode = 401;
-//                 context.Response.ContentType = "application/json";
-//                 return context.Response.WriteAsync("{\"error\": \"Unauthorized\"}");
-//             }
-//         };
-//     });
+builder.Services
+    .AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(configuration["Jwt:Key"] ?? "SUPER_SECRET_KEY_12345"))
+        };
 
-
-
-
-// builder.Services
-//     .AddAuthentication(options =>
-//     {
-//         options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
-//         options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
-//     })
-//     .AddJwtBearer(options =>
-//     {
-//         options.TokenValidationParameters = new TokenValidationParameters
-//         {
-//             ValidateIssuer = false,
-//             ValidateAudience = false,
-//             ValidateLifetime = true,
-//             ValidateIssuerSigningKey = true,
-//             IssuerSigningKey = new SymmetricSecurityKey(
-//                 Encoding.UTF8.GetBytes(
-//                     configuration["jwt:Key"]
-                    // ?? throw new InvalidOperationException("JWT Key missing")
-//                 ))
-//         };
-//     });
+        options.Events = new JwtBearerEvents
+        {
+            OnChallenge = context =>
+            {
+                context.HandleResponse();
+                context.Response.StatusCode = 401;
+                context.Response.ContentType = "application/json";
+                return context.Response.WriteAsync("{\"error\": \"Unauthorized\"}");
+            }
+        };
+    });
 
 builder.Services.AddAuthorization();
 
@@ -182,7 +156,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
     {
-        policy.WithOrigins("http://localhost:8080", "http://localhost:5073") 
+        policy.WithOrigins("http://localhost:8080", "http://localhost:5073", "http://localhost:5000")
               .AllowAnyMethod()
               .AllowAnyHeader()
               .AllowCredentials();
@@ -206,8 +180,8 @@ app.UseRouting();
 
 app.UseCors("AllowAll");
 
-// app.UseAuthentication();
-// app.UseAuthorization();
+app.UseAuthentication();
+app.UseAuthorization();
 
 // Hangfire dashboard
 app.UseHangfireDashboard("/hangfire");
@@ -251,7 +225,12 @@ using (var scope = app.Services.CreateScope())
 
             // seed admin
             await DbInitializer.SeedAdminUser(services);
-                        
+
+            // seed sample patients, doctors, medicines and appointments so end-to-end
+            // flow (and search) is observable on a fresh database
+            var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+            await SampleDataSeeder.SeedAsync(context, userManager, roleManager);
+
             logger.LogInformation("Database migration and seeding completed successfully.");
             break; // Success! Exit the loop.
         }

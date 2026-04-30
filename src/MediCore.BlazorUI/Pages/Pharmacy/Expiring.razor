@@ -1,47 +1,84 @@
 @page "/pharmacy/expiring"
-@using MediCore.BlazorUI.Models.Pharmacy
+@attribute [Authorize]
 @inject PharmacyService PharmacyService
 @using MudBlazor
 
 <MudText Typo="Typo.h4" Class="mb-4">Expiring Medicines</MudText>
 
-<MudTextField Placeholder="Search medicine..."
-              @bind-Value="searchText"
-              @bind-Value:event="oninput"
-              Adornment="Adornment.Start"
-              AdornmentIcon="@Icons.Material.Filled.Search"
-              Class="mb-4" />
+@if (isLoading)
+{
+    <div class="text-center py-5">
+        <MudProgressCircular Indeterminate="true" Color="Color.Warning" />
+        <MudText Class="mt-2">Checking expiry dates...</MudText>
+    </div>
+}
+else if (medicines.Count == 0)
+{
+    <MudAlert Severity="Severity.Success">No medicines expiring within 30 days.</MudAlert>
+}
+else
+{
+    <MudAlert Severity="Severity.Warning" Class="mb-3">
+        @medicines.Count medicine(s) expiring within 30 days.
+    </MudAlert>
 
-<MudTable Items="FilteredMedicines" Hover="true" Dense="true" Striped="true">
-    <HeaderContent>
-        <MudTh>Medicine</MudTh>
-        <MudTh>Stock</MudTh>
-        <MudTh>Expiry Date</MudTh>
-        <MudTh>Days Left</MudTh>
-    </HeaderContent>
+    <MudTextField T="string"
+                  Placeholder="Search medicine..."
+                  Value="@searchText"
+                  ValueChanged="OnSearchChanged"
+                  Immediate="true"
+                  DebounceInterval="0"
+                  Adornment="Adornment.Start"
+                  AdornmentIcon="@Icons.Material.Filled.Search"
+                  Class="mb-4" />
 
-    <RowTemplate>
-        <MudTd>@context.Name</MudTd>
-        <MudTd>@context.StockQuantity</MudTd>
-        <MudTd>@context.ExpiryDate.ToShortDateString()</MudTd>
-        <MudTd>
-            @DaysLeft(context.ExpiryDate)
-        </MudTd>
-    </RowTemplate>
-</MudTable>
+    <MudTable Items="FilteredMedicines" Hover="true" Dense="true" Striped="true">
+        <HeaderContent>
+            <MudTh>Medicine</MudTh>
+            <MudTh>Stock</MudTh>
+            <MudTh>Expiry Date</MudTh>
+            <MudTh>Days Left</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd>@context.Name</MudTd>
+            <MudTd>@context.StockQuantity</MudTd>
+            <MudTd>@context.ExpiryDate.ToShortDateString()</MudTd>
+            <MudTd>
+                <MudChip T="string" Color="@(DaysLeft(context.ExpiryDate) < 7 ? Color.Error : Color.Warning)" Size="Size.Small">
+                    @DaysLeft(context.ExpiryDate) days
+                </MudChip>
+            </MudTd>
+        </RowTemplate>
+    </MudTable>
+}
 
 @code {
     private List<MedicineVM> medicines = new();
     private string searchText = string.Empty;
+    private bool isLoading = true;
 
     private IEnumerable<MedicineVM> FilteredMedicines =>
         medicines.Where(m =>
             string.IsNullOrWhiteSpace(searchText) ||
-            m.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase));
+            (m.Name?.Contains(searchText, StringComparison.OrdinalIgnoreCase) ?? false));
+
+    private void OnSearchChanged(string value)
+    {
+        searchText = value ?? string.Empty;
+        StateHasChanged();
+    }
 
     protected override async Task OnInitializedAsync()
     {
-        medicines = await PharmacyService.GetExpiringAsync();
+        try
+        {
+            medicines = await PharmacyService.GetExpiringAsync();
+        }
+        catch { }
+        finally
+        {
+            isLoading = false;
+        }
     }
 
     private static int DaysLeft(DateTime expiryDate)

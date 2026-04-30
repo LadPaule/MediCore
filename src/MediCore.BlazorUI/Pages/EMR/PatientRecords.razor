@@ -1,0 +1,120 @@
+@page "/emr/patients"
+@attribute [Authorize]
+@inject PatientService PatientService
+@inject AuthService AuthService
+@inject AuthenticationStateProvider AuthState
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h3 class="mb-0">Electronic Medical Records</h3>
+        @if (scopedToDoctor)
+        {
+            <small class="text-muted">Showing your assigned patients.</small>
+        }
+    </div>
+</div>
+
+@if (isLoading)
+{
+    <div class="text-center py-5">
+        <div class="spinner-border text-primary" role="status"></div>
+        <p class="mt-2 text-muted">Loading patient records...</p>
+    </div>
+}
+else if (patients.Count == 0)
+{
+    <div class="text-center py-5">
+        <i class="bi bi-file-medical" style="font-size: 3rem; color: #ccc;"></i>
+        <p class="text-muted mt-2">
+            @(scopedToDoctor
+                ? "No patients are assigned to you yet."
+                : "No patients found.")
+        </p>
+    </div>
+}
+else
+{
+    <input class="form-control mb-3" placeholder="Search patient..."
+           value="@searchText"
+           @oninput="OnSearchInput"
+           style="max-width: 400px;" />
+
+    <div class="row">
+        @foreach (var p in FilteredPatients)
+        {
+            <div class="col-md-6 col-lg-4 mb-3">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="bi bi-person-fill text-primary me-1"></i>
+                            @p.FirstName @p.LastName
+                        </h5>
+                        <p class="card-text text-muted mb-1">
+                            <i class="bi bi-telephone me-1"></i> @(string.IsNullOrEmpty(p.PhoneNumber) ? "N/A" : p.PhoneNumber)
+                        </p>
+                        <p class="card-text text-muted mb-1">
+                            <i class="bi bi-envelope me-1"></i> @(string.IsNullOrEmpty(p.Email) ? "N/A" : p.Email)
+                        </p>
+                        <p class="card-text text-muted mb-1">
+                            <i class="bi bi-calendar me-1"></i> DOB: @(p.DateOfBirth?.ToShortDateString() ?? "N/A")
+                        </p>
+                        @if (!scopedToDoctor)
+                        {
+                            <p class="card-text text-muted mb-0">
+                                <i class="bi bi-person-badge me-1"></i>
+                                @(string.IsNullOrEmpty(p.AssignedDoctorName) ? "Unassigned" : p.AssignedDoctorName)
+                            </p>
+                        }
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <a href="/emr/patients/@p.Id" class="btn btn-sm btn-outline-primary w-100">
+                            <i class="bi bi-file-medical me-1"></i> View Records
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@code {
+    List<Patient> patients = new();
+    string searchText = "";
+    bool isLoading = true;
+    bool scopedToDoctor;
+
+    IEnumerable<Patient> FilteredPatients =>
+        patients.Where(p =>
+            string.IsNullOrWhiteSpace(searchText) ||
+            $"{p.FirstName} {p.LastName}".Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+            (p.PhoneNumber?.Contains(searchText, StringComparison.OrdinalIgnoreCase) ?? false) ||
+            (p.Email?.Contains(searchText, StringComparison.OrdinalIgnoreCase) ?? false));
+
+    void OnSearchInput(ChangeEventArgs e)
+    {
+        searchText = e.Value?.ToString() ?? string.Empty;
+        StateHasChanged();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            await AuthService.InitializeAsync();
+            var auth = await AuthState.GetAuthenticationStateAsync();
+            var user = auth.User;
+            var isDoctor = user.IsInRole("Doctor");
+            var isAdmin = user.IsInRole("Admin");
+            scopedToDoctor = isDoctor && !isAdmin;
+
+            patients = scopedToDoctor
+                ? await PatientService.GetMyPatients()
+                : (await PatientService.GetPatients()) ?? new();
+        }
+        catch { }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+}

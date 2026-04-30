@@ -1,41 +1,58 @@
 @page "/dashboard"
-@* @attribute [Authorize(Roles = "Admin,Doctor,Nurse,Pharmacist")] *@
+@attribute [Authorize]
 @inject DashboardService DashboardService
-@using MudBlazor
+@inject PharmacyService PharmacyService
 
 <h3 class="mb-4">Dashboard</h3>
 
-<div class="grid">
-    <div class="card-metric">
-        <div class="d-flex align-items-center justify-content-between">
-            <div>
-                <div class="metric-value">@patients</div>
-                <div class="metric-label">Total Patients</div>
-            </div>
-            <i class="bi bi-people-fill" style="font-size: 2.5rem; color: var(--primary);"></i>
-        </div>
+@if (isLoading)
+{
+    <div class="text-center py-5">
+        <div class="spinner-border text-primary" role="status"></div>
+        <p class="mt-2 text-muted">Loading dashboard...</p>
     </div>
+}
+else if (errorMessage != null)
+{
+    <div class="alert alert-danger">
+        <i class="bi bi-exclamation-triangle me-2"></i>@errorMessage
+        <button class="btn btn-sm btn-outline-danger ms-3" @onclick="LoadData">Retry</button>
+    </div>
+}
+else
+{
+    <div class="grid">
+        <div class="card-metric">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <div class="metric-value">@patients</div>
+                    <div class="metric-label">Total Patients</div>
+                </div>
+                <i class="bi bi-people-fill" style="font-size: 2.5rem; color: var(--primary);"></i>
+            </div>
+        </div>
 
-    <div class="card-metric">
-        <div class="d-flex align-items-center justify-content-between">
-            <div>
-                <div class="metric-value">@appointments</div>
-                <div class="metric-label">Appointments Today</div>
+        <div class="card-metric">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <div class="metric-value">@appointments</div>
+                    <div class="metric-label">Appointments Today</div>
+                </div>
+                <i class="bi bi-calendar-check-fill" style="font-size: 2.5rem; color: var(--success);"></i>
             </div>
-            <i class="bi bi-calendar-check-fill" style="font-size: 2.5rem; color: var(--success);"></i>
         </div>
-    </div>
 
-    <div class="card-metric">
-        <div class="d-flex align-items-center justify-content-between">
-            <div>
-                <div class="metric-value">—</div>
-                <div class="metric-label">Medicines in Stock</div>
+        <div class="card-metric">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <div class="metric-value">@medicinesInStock</div>
+                    <div class="metric-label">Medicines in Stock</div>
+                </div>
+                <i class="bi bi-capsule" style="font-size: 2.5rem; color: var(--warning);"></i>
             </div>
-            <i class="bi bi-capsule" style="font-size: 2.5rem; color: var(--warning);"></i>
         </div>
     </div>
-</div>
+}
 
 <style>
     .grid {
@@ -48,11 +65,33 @@
 @code {
     int patients;
     int appointments;
+    int medicinesInStock;
+    bool isLoading = true;
+    string? errorMessage;
 
     protected override async Task OnInitializedAsync()
     {
-        patients = await DashboardService.GetPatientCount();
-        appointments = await DashboardService.GetTodayAppointments();
+        await LoadData();
+    }
+
+    async Task LoadData()
+    {
+        try
+        {
+            isLoading = true;
+            errorMessage = null;
+            patients = await DashboardService.GetPatientCount();
+            appointments = await DashboardService.GetTodayAppointments();
+            var stats = await PharmacyService.GetStatsAsync();
+            medicinesInStock = stats?.AvailableStock ?? 0;
+        }
+        catch
+        {
+            errorMessage = "Failed to load dashboard data. Is the API running?";
+        }
+        finally
+        {
+            isLoading = false;
+        }
     }
 }
-

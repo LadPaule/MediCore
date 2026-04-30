@@ -1,20 +1,20 @@
+@implements IDisposable
+
 @if (show)
 {
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
-
-        <div class="toast show">
-
-            <div class="toast-body">
-                @message
+        <div class="toast show align-items-center text-bg-success border-0" role="alert">
+            <div class="d-flex">
+                <div class="toast-body">
+                    @message
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" @onclick="Hide"></button>
             </div>
-
         </div>
-
     </div>
 }
 
 @code {
-
     string message = "";
     bool show;
 
@@ -22,15 +22,34 @@
 
     protected override void OnInitialized()
     {
-        ToastService?.OnShow += ShowToast;
+        if (ToastService != null)
+            ToastService.OnShow += ShowToast;
     }
 
     void ShowToast(string msg)
     {
         message = msg;
         show = true;
-
         StateHasChanged();
+
+        _ = HideAfterDelay();
     }
 
+    async Task HideAfterDelay()
+    {
+        await Task.Delay(3000);
+        show = false;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    void Hide()
+    {
+        show = false;
+    }
+
+    public void Dispose()
+    {
+        if (ToastService != null)
+            ToastService.OnShow -= ShowToast;
+    }
 }
