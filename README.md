@@ -6,7 +6,13 @@ The goal of the project is to simulate a **production-grade healthcare SaaS syst
 The platform demonstrates **enterprise software architecture**, a **modern admin dashboard UI**, and advanced features such as **analytics dashboards, PDF medical reports, and real-time notifications**.
 
 ---
-
+# To run the MediCore project.
+1. open the project in terminal
+2. dotnet clean
+3. dotnet build
+4. docker compose up (make sure docker is running on your computer). 
+Open the project on localhost:5073
+---
 # Project Goals
 
 MediCore is designed as a **portfolio-quality enterprise application** to demonstrate:
@@ -98,3 +104,9 @@ MediCore is designed as a **portfolio-quality enterprise application** to demons
 # Project Architecture
 
 The project follows a **clean modular architecture** separating domain logic, infrastructure, and UI.
+
+---
+
+#
+ 
+
